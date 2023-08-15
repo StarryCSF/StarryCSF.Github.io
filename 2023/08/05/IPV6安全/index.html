@@ -1,0 +1,950 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>IPV6安全 | StarryCSF</title><meta name="author" content="Fan"><meta name="copyright" content="Fan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="IPV6安全"><meta name="application-name" content="IPV6安全"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="IPV6安全"><meta property="og:url" content="https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/index.html"><meta property="og:site_name" content="StarryCSF"><meta property="og:description" content="IPv6安全机制论述 目  录 1 IPv6安全隐患.. 1  1.1 IPv6安全技术简介… 1  1.1.1 IPv6安全技术的历史背景… 1   1.1.2 IPv6安全技术的特点… 1  1.2 IPv6安全隐患… 2   1.2.1 IPv4向IPv6过渡技术的隐患… 2   1.2.2"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/ipv6.jpg"><meta property="article:author" content="Fan"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/ipv6.jpg"><link rel="shortcut icon" href="/StarryCSF/favicon.ico"><link rel="canonical" href="https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/"><link rel="preconnect" href="//npm.elemecdn.com"/><link rel="preconnect" href="//npm.onmicrosoft.cn"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/StarryCSF/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.14/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/StarryCSF/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#3b70fc","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'IPV6安全',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-05 21:08:22',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://s1.ax1x.com/2023/08/04/pPkQPL4.jpg"/><div class="loading-image-dot"></div><div id="loading-percentage">0%</div></div></div><script>if (GLOBAL_CONFIG.preloader.source == "2" || GLOBAL_CONFIG.preloader.source == "3") {
+  const loadingPercentage = document.getElementById("loading-percentage");
+  let loadingPercentageTimer = setInterval(function() {
+    var progressBar = document.querySelector(".pace-progress");
+    if (!progressBar) return
+    var currentValue = progressBar.getAttribute("data-progress-text");
+    if (currentValue !== loadingPercentage.textContent) {
+      loadingPercentage.textContent = currentValue;
+      if (currentValue === "100%") {
+        clearInterval(loadingPercentageTimer);
+      }
+    }
+  }, 100);
+}
+
+const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div id="web_box"><div id="web_container"><div id="menu-mask"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/StarryCSF/" accesskey="h"><div class="title">StarryCSF</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child" style="left:-31px;"><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child" style="left:-79px;"><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/StarryCSF/money/wechat.jpg" target="_blank"><img class="post-qr-code-img" alt="wechat" src="/StarryCSF/money/wechat.jpg"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/StarryCSF/money/alipay.jpg" target="_blank"><img class="post-qr-code-img" alt="alipay" src="/StarryCSF/money/alipay.jpg"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> <span>最新评论</span></span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/StarryCSF/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/StarryCSF/archives/2021/10/"><span class="card-archive-list-date">十月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/StarryCSF/archives/2021/09/"><span class="card-archive-list-date">九月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/StarryCSF/archives/2021/08/"><span class="card-archive-list-date">八月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/StarryCSF/archives/2021/07/"><span class="card-archive-list-date">七月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/StarryCSF/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/StarryCSF/archives/2021/01/"><span class="card-archive-list-date">一月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="anzhiyu.switchDarkMode()" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/StarryCSF/categories/%E5%A4%A7%E5%AD%A6/">大学</a></span><span class="article-meta tags"></span></div></div><h1 class="post-title">IPV6安全</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-05T02:39:56.000Z" title="发表于 2023-08-05 10:39:56">2023-08-05</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-05T13:08:22.206Z" title="更新于 2023-08-05 21:08:22">2023-08-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">5.6k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="IPV6安全"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为山东"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>山东</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/ipv6.jpg"></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>IPv6安全机制论述</strong></p>
+<p>目  录</p>
+<p><a href="#_Toc138249995">1 IPv6安全隐患.. 1</a></p>
+<p> <a href="#_Toc138249996">1.1 IPv6安全技术简介… 1</a></p>
+<p> <a href="#_Toc138249997">1.1.1 IPv6安全技术的历史背景… 1</a></p>
+<p>  <a href="#_Toc138249998">1.1.2 IPv6安全技术的特点… 1</a></p>
+<p> <a href="#_Toc138249999">1.2 IPv6安全隐患… 2</a></p>
+<p>  <a href="#_Toc138250000">1.2.1 IPv4向IPv6过渡技术的隐患… 2</a></p>
+<p>  <a href="#_Toc138250001">1.2.2 IPv6中组播技术缺陷的隐患… 3</a></p>
+<p>  <a href="#_Toc138250002">1.2.3 邻居发现协议的隐患… 3</a></p>
+<p>  <a href="#_Toc138250003">1.2.4 邻居发现协议的隐患… 3</a></p>
+<p><a href="#_Toc138250004">2 方法措施.. 5</a></p>
+<p> <a href="#_Toc138250005">2.1 应对IPv6安全隐患的措施… 5</a></p>
+<p> <a href="#_Toc138250006">2.1.1 加大防护技术的研究投入… 5</a></p>
+<p> <a href="#_Toc138250007">2.1.2 加快信息安全产品研制。… 5</a></p>
+<p><a href="#_Toc138250008">3 技术实现.. 6</a></p>
+<p> <a href="#_Toc138250009">3.1 IPv6认证… 6</a></p>
+<p>  <a href="#_Toc138250010">3.1.1 IPv6身份认证的实现… 6</a></p>
+<p>  <a href="#_Toc138250011">3.1.2 层次移动IP接入认证设计… 6</a></p>
+<p>  <a href="#_Toc138250012">3.2 IPv6加密技术过程… 8</a></p>
+<p>  <a href="#_Toc138250013">3.2.1 IPv6加密分析… 8</a></p>
+<p>  <a href="#_Toc138250014">3.2.2 IPv6验证与加密的结合分析… 8</a></p>
+<p><a href="#_Toc138250016">4 结论与展望.. 10</a></p>
+<h1 id="1-IPv6安全隐患"><a href="#1-IPv6安全隐患" class="headerlink" title="1 IPv6安全隐患"></a>1 IPv6安全隐患</h1><h2 id="1-1-IPv6安全技术简介"><a href="#1-1-IPv6安全技术简介" class="headerlink" title="1.1 IPv6安全技术简介"></a>1.1 IPv6安全技术简介</h2><p>1.1.1 IPv6安全技术的历史背景</p>
+<p>以IPv4为核心技术的Internet获得巨大成功，但随着网络技术的飞速发展，IPv4地址资源的枯竭，以及其固有的局限性无法满足网络发展的需求，也带来了一些问题，比如现有的IPv4地址匮乏、服务保障问题等。自从2017年《推进互联网协议第六版（IPv6）规模部署行动计划》发布以来，经过数年的努力，我国电信网络基础设施IPv6改造已全面完成。目前IPv6正在政府部门的推动下大规模部署，中国也拥有了IPv6根服务器。截至2019年7月，全国已有12.78亿用户获得IPv6地址，主要互联网应用活跃用户数已达2.01亿户。政府网、政务网、中央媒体、中央企业网站和各大门户网站均已实现IPv6升级改造，已能支持IPv4和IPv6访问，各行业内网升级改造也正逐步展开。我国将长期处于IPv4和IPv6的混合环境之下，从而也带来了新的安全挑战，新形式下的风险防范亟待关注，如何做好新环境下的安全防护，也将是今后的重要课题。</p>
+<p>1.1.2 IPv6安全技术的特点</p>
+<p>（1）地址空间大</p>
+<p>这是 IPv6 最大的特点，IPv6 地址一共有 128 bit。作为对比，IPv4 仅有 32 bit；如果要直观体现 128 bit 究竟大了多少的话，IPv6 的地址数量等于 IPv4 地址数量再乘以三个 42 亿。这就是为什么有人敢说 IPv6 可以为每一粒沙都分配 IP 地址的原因。</p>
+<p>（2）精简报文结构</p>
+<p>IPv6 的报文结构相比 IPv4 精简了许多。IPv4 的报文长度不固定，且有一个变化无常的 option 字段来实现一些功能；IPv6 在此前提下长度固定，且将 option 字段、分片的字段的功能转移到 IPv6 扩展报头中。这就极大的精简了 IPv6 的报文结构，更多的功能通过添加不同的扩展报头来实现。</p>
+<p>（3）实现自动配置和前缀重新编址</p>
+<p>在 IPv6 网络环境中，路由器会通告自身接口的前缀信息给终端设备；终端设备通过 IPv6 前缀，然后自己通过计算生成接口标识就可以为自己生成一个可用的 IPv6 地址，同时还会将路由作为自己的默认网关。就算这时需要将已经获得 IPv6 地址的终端设备移动到另一个网段的网络接入，那终端设备也可以通过上述过程自动更改自己的 IPv6 地址。</p>
+<p>（4）支持层次化网络结构</p>
+<p>IPv6 不再像 IPv4 一样按照 A、B、C等分类来划分地址，而是通过IANA-&gt;RIR -&gt;ISP 这样的顺序来分配的。</p>
+<p>IANA 是国际互联网号码分配机构，RIR是区域互连网注册管理机构，ISP是一些运营商（例如电信、移动、联通）。IANA 会合理给五个 RIR（我们所在区域的机构是 APNIC 亚太网络信息中心） 来分配 IPv6 地址，然后五个 RIR 再向区域内的国家合理配置地址，每个国家分配到的地址再交给 ISP 运营商，然后运营商再来合理的分配资源给用户。</p>
+<p>在这个分配过程中将能够尽力避免出现网络地址子网不连续的情况，这样可以更好的聚合路由，减少骨干网络上的路由条目。</p>
+<p>（5）更好的支持 QoS</p>
+<p>IPv6 通过两个方面来更好的支持了 QoS：优先级字段有 6 bit 可以用作优先级表示，可以表示64个不同的优先级。新增的流标签字段可以配合源地址、目的地址来定义一条数据流。早期流分类要通过源IP、目的IP、源端口、目的端口、协议五元组才能定义一条数据流，而这个定义过程需要拆封装到传输层才可以定义。有了流标签字段以后，可以直接通过网络层的信息就可以实现流分类，这样就大大地提高了流分类的效率。</p>
+<p>（6）原生支持端到端的安全</p>
+<p>IPv6 的扩展报头中有一个认证报头、封装安全净载报头，这两个报头是 IPsec 定义的。通过这两个报头网络层自己就可以实现端到端的安全，而无需像 IPv4 协议一样需要其他协议的帮助。</p>
+<p>（7）支持移动特性</p>
+<p>IPv6 支持终端设备移动的特性，顾名思义就是在终端设备移动到另一个网络环境中也可以快速恢复通讯（这还是概念，在实验中。未正式投入使用）。比如一个主机从网络A环境中迁移到了网络B环境中，主机通过前缀重新编址得知自己的网络位置，于是乎向以前的网关路由器发送报文来通告自己的新地址。以前的网关路由器只要收到发给主机的数据就会截获并发送到主机的新地址；主机收到数据之后就会知道有人想与自己通信，就会给这个数据的源地址发送一个报文，通告自己现在的新地址。这样主机就算迁移了到了新的网络环境也可以实现流量不断的能力。</p>
+<h2 id="1-2-IPv6安全隐患"><a href="#1-2-IPv6安全隐患" class="headerlink" title="1.2 IPv6安全隐患"></a>1.2 IPv6安全隐患</h2><p>1.2.1 IPv4向IPv6过渡技术的隐患</p>
+<p>从协议本身来看，IPv6 与 IPv4 并没有太大的区别：它 是一个无连接的网络协议，使用与 IPv4 相同的下层服务， 并向上层提供相同的服务。双栈机制安全风险</p>
+<p>（1）过渡期间双栈部署的网络中同时运行着 IPv4、IPv6 两个逻辑通道，增加了设备&#x2F;系统的暴露面，也意味着防火墙、安全网关等防护设备需同时配置双栈策略，导致策略管理复杂度加倍，防护被穿透的机会加倍。IPv4 网络中，部分操作系统缺省启动了 IPv6 自动地址配置功能，使得 IPv4 网络中存在隐蔽的 IPv6 通道，由于该 IPv6 通道并没有进行防护配置，攻击者可以利用 IPv6 通道实施攻击。此外，双栈系统的复杂性也会增加网络节点的数据转发负担，导致网络节点的故障率增加。</p>
+<p>（2）隧道机制安全风险在隧道环境下，部分隧道机制仅要求隧道出入口节点对报文进行简单的封装和解封，缺乏内置认证、加密等安全功能，导致攻击者可能截取隧道报文，伪造用户地址并伪装成合法用户发起攻击。以 IPv6 Over IPv4 为例，攻击者可伪造内层、外层地址发起仿冒攻击等安全风险。此外，由于部分隧道机制未采取对隧道封装内容的检查，因此，攻击者可将 IPv4 流量承载在 IPv6 报文中，导致原来 IPv4 网络的攻击流量经由 IPv6 的“掩护”后穿越防护造成威胁。</p>
+<p>（3）翻译机制安全风险</p>
+<p>翻译机制（协议转换）是为 IPv6 网络节点与 IPv4 网络节点相互通信提供透明的路由。翻译设备作为 IPv6 与 IPv4互连节点，易成为安全瓶颈，面临地址池耗尽等常见 DDoS攻击威胁，攻击者可通过伪造大量 IPv6 地址向翻译节点发起地址转换请求，消耗地址池 IPv4 资源，同时导致合法用户无法获取 IPv4 地址，进而引发 IPv4 网络无法正常访问，导致网络瘫痪。</p>
+<p>双协议栈会带来新的安全问题，对于同时支持IPv4和IPv6的主机，黑客可以同时用两种协议进行协调攻击，发现两种协议中存在的安全弱点和漏洞，或者利用两种协议版本中安全设备的协调不足来逃避检测，而且双协议栈中一种协议的漏洞会影响另一种协议的正常工作。由于隧道机制对任何来源的数据包只进行简单的封装和解封，而不对IPv4和IPv6地址的关系做严格的检查，所以隧道机制的引入，会给网络安全带来更复杂的问题，也较多的出现安全隐患。</p>
+<p>1.2.2 IPv6中组播技术缺陷的隐患</p>
+<p>组播报文是通过UDP（用户数据报协议）进行传输的，所以它缺乏TCP（传输控制协议）所提供的可靠传输的功能。组播的开放性使通信数据缺乏机密性和完整性的安全保护，而IPv6组播所需的MLD等组播维护协议不能满足安全的需要。IP组播使用UDP，任何主机都可以向某个组播地址发送UDP包，并且低层组播机构将传送这些UDP包到所有组成员。由于在IPv6组播通信中，任何成员都可以利用MLD报文请求临近的路由加入组播群组，组播加入成员的约束机制很匮乏，无法保证通信的机密性，因此，对机密数据的窃听将非常容易。</p>
+<p>1.2.3 邻居发现协议的隐患</p>
+<p>在自动地址配置中，邻居发现协议（NDP）是基于IP的协议结构，用来完成邻居可达性检测、链路地址解析、路由及网络前缀发现、流量重定向等链路机制。报文身份的可鉴别性是NDP协议的主要安全需求，而哄骗报文攻击是其所而临的主要安全威胁。攻击者只要仿造节点不可达信息和重复地址检测，进行DoS攻击，或者传播虚假的路由响应和重定向报文，就能诱骗网络流量。</p>
+<p>1.2.4 邻居发现协议的隐患</p>
+<p>1.针对密码的攻击，对一些老版本的操作系统，有的组件不是在验证网络传输标识信息时进行信息保护，于是，窃听者可以捕获有效的用户名及其密码，掌握合法用户权限，进入机器内部破坏。</p>
+<p>2.针对密钥的攻击，IPv6下，IPSec的两种工作模式都要交换密钥，一旦攻击者破解到正确的密钥，就可以得到安全通信的访问权，监听发送者或接收者的传输数据，甚至解密或窜改数据。</p>
+<p>3.加密耗时过长引发的DoS攻击，加密需要很大的计算量，如果黑客向目标主机发送大规模看似合法事实上却是任意填充的加密数据包，目标主机将耗费大量CPU时间来检测数据包而无法回应其他用户的通信请求。</p>
+<h1 id="2-方法措施"><a href="#2-方法措施" class="headerlink" title="2 方法措施"></a>2 方法措施</h1><h2 id="2-1-应对IPv6安全隐患的措施"><a href="#2-1-应对IPv6安全隐患的措施" class="headerlink" title="2.1 应对IPv6安全隐患的措施"></a>2.1 应对IPv6安全隐患的措施</h2><p>2.1.1 加大防护技术的研究投入</p>
+<p>1.从IPv6协议的自身特点来看，容易受到分片攻击、邻居发现协议攻击、扩展头攻击等，应针对各种攻击类型的特点开展攻击原理分析、攻击检测、攻击防御、攻击解决方案研究。</p>
+<p>2.在IPv4向IPv6演进的过程中，应将过渡机制与安全问题结合起来，实现平滑、无缝、安全的过渡技术，进行新的安全体系设计。</p>
+<p>3.在新技术新应用结合方面，应开展IPv6环境下移动互联网、物联网、云计算等领域网络安全技术、管理及机制研究工作，如移动互联网下应关注IPv6的移动性安全管理，物联网中应关注IPv6在感知层应用的安全问题，云计算方面应关注基于IPv6的云计算平台安全解决方案等问题。</p>
+<p>2.1.2 加快信息安全产品研制。</p>
+<p>应对现有网络安全保障系统进行升级改造，提升对IPv6地址和网络环境的支持能力。根据《行动计划》的要求，各种安全产品应增强IPv6地址精准定位、侦查打击和快速处置能力，同时应开展针对IPv6的网络安全等级保护、个人信息保护、风险评估、通报预警、灾难备份及恢复等工作。</p>
+<h1 id="3-技术实现"><a href="#3-技术实现" class="headerlink" title="3 技术实现"></a>3 技术实现</h1><h2 id="3-1-IPv6认证"><a href="#3-1-IPv6认证" class="headerlink" title="3.1 IPv6认证"></a>3.1 IPv6认证</h2><p>3.1.1 IPv6身份认证的实现</p>
+<p>IPv6下身份认证的实现主要是通过其数据报的AH头。设计认证头部（AH）协议的目的是用来增加IP数据报的安全性。AH协议提供无连接的完整性、数据源认证和抗重放保护服务。数据完整性特征保证在传输过程中对数据报内容的修改都可以检测出来；认证特征使得终端系统或网络设备能够认证用户或应用的身份并相应地过滤通信量，它也可以防止在今天的Internet上可以观察到的地址欺骗攻击，AH还能对付重放攻击。然而，AH不提供任何保密：它不加密所保护的数据报。AH的作用是为IP数据流提供高强度的密码认证，以确保被修改过的数据报可以被检查出来。</p>
+<p>图1-2 AH报文头</p>
+<p>3.1.2 层次移动IP接入认证设计</p>
+<p>    层次移动IPv6引入移动锚点（MAP），作用如同一个本地家乡代理，它将代表其所服务的移动节点接收所有数据包，并将这些数据包封装后直接转发至移动节点的当前地址。如果移动节点在本地MAP域中更改其当前地址（即在线转交地址（LCOA）），只需在相应的MAP注册新的LCOA。因此，移动节点在对端节点或家乡代理注册本地转交地址（RCOA）后，如果移动节点在一个MAP域中移动，则LCOA不发生改变。这使移动节点的移动对于与其通信的对端节点是透明的。</p>
+<p>在无线链路情况下，层次移动IPv6可以减少通过空中接口发送到通信对端或家乡代理的消息数目。移动锚点的引入有利于移动IPv6协议减少与外部网络之间的移动信令传输。</p>
+<p>采用DHCPv6协议作为接入认证方式，在DHCPv6 Request消息中添加用户名和密码选项来传送认证信息。</p>
+<p>在层次移动IP的启动过程中，当MN收到路由通告，发现与自己的路由缓存中维护的路由前缀不一样时，发送一个信号量启动DHCPv6客户端子进程，开始接入认证过程。在DHCPv6协议中创建用户名、密码和认证失败选项，在填充选项内容时，用户名和密码通过对MN的配置文件进行读取操作，由AAA服务器预先分配给用户。</p>
+<p>在获取密码后通过标准的DES加密算法对原始密码采用双方协商好的密钥进行加密。由于DES只能对不大于8字节的字符进行加密，所以在加密过程中先计算原始密码的长度，如果小于或等于8字节则直接进行加密；如果大于8字节则截取前8个字节进行加密，再对剩余的字节进行相同的加密过程，把生成的密码拷贝到密码选项中。为了简化运算，在该文中默认密码字节不大于16字节，一般能满足实际运用。</p>
+<p>在客户端消息选项中，添加用户名和密码选项的标识，通过标识对相应的选项进行处理。当客户端在构建Request消息时，把定义好的用户名和密码标识通过系统函数添加到Request消息中，完成后发送该消息给服务器。</p>
+<p>DHCPv6服务器端收到Request消息后，通过switch语句对标识进行处理，获取选项中的用户名和密码密文字符，其中通过DES解密算法对收到的密文使用原先加密用的密钥进行解密。假如密文大于8个字节，则先对前8个字节进行解密，之后在对剩余的字节进行解密。把解密好的密码和用户名通过字符读取操作存到AAA的配置文件中。</p>
+<p>完成后在DHCPv6服务器创建子进程来启动AAA客户端程序，并且构造Reply报文，在其中创建一个消息队列来等待接收AAA客户端认证完成后返回的认证结果。如果收到认证成功标识，则从地址池中获取一个合法地址添加到该消息选项中完成后发送Reply消息。并且将MN的MAC地址和IP地址发送到包过滤器的访问控制列表（ACL）中；如果收到认证失败标识，则在构造的Reply消息中添加一个认证失败信息选项，该认证选项标识为OPTION_AUTH_FAIL。将认证失败信息添加到该选项中，并且删除准备分配给客户端的合法地址选项，完成后发送Reply消息。</p>
+<p>MN对收到的Reply报文进行判断，使用switch语句对消息中各选项进行处理。如果认证成功则含有地址选项标识，从中获取合法地址分配给接口使用，MN可以使用当地网络提供的服务或者完成切换绑定认证[5]过程。如果认证失败，不含有地址选项，而含有OPTION_AUTH_FAIL选项，MN可以获取该选项中相应的出错信息，进行再次认证或是退出该网络。</p>
+<h2 id="3-2-IPv6加密技术过程"><a href="#3-2-IPv6加密技术过程" class="headerlink" title="3.2 IPv6加密技术过程"></a>3.2 IPv6加密技术过程</h2><p>3.2.1 IPv6加密分析</p>
+<p>    ESP，也就是IPv6当中的封装安全载荷，它的出现主要是为了实现IPv6与IPv6间混合业务的安全实现。其主要的工作流程是，ESP对所有的数据以及加载进行的舍监地严格的加密.提高其传输的机密性，从而达到避免无关用户对正在进行交换的信息进行监听的现象，只有可依赖的用户通过密钥方式才能够打开相关传输内容.另外，ESP在数据的完整性方面也有一定的贡献，DES(数据加密标准）是ESP的主要标准。</p>
+<p>3.2.2 IPv6验证与加密的结合分析</p>
+<p>使用AH与ESP是对一个IP数据包进行数据机密性、真实性与完整性提供的最初概念，所说在说，在设想范围之内，两个扩展报头会在许多不同的情况之间被同时使用，就会使得IP数据包的整体规格变大。这样一来，验证功能就会在ESP的报尾得到额外的嵌入，从而对ESP的序列号和有效载荷提供一种保护。所以说，在验证与加密的问题上，协议的研制者还存在关个待解决的问题，那就是同时使用AH与ESP和单单使用ESP报头的选择性问题，特别需要强调的是ESP的报伪可以为数据提供个验证功能。但是，无论是哪一种选择，在传输与隧道模式当中，进行数据传输之时，与AH与ESP的组合使用并无关系，esp头如图1-4所示。</p>
+<p> </p>
+<h1 id="4-结论与展望"><a href="#4-结论与展望" class="headerlink" title="4.结论与展望"></a>4.结论与展望</h1><p>为了满足广域网络的灵活组网、按需服务、差异化保障、网络可视化等需求，出现了以 SRv6（网络基础隧道）、VPN+&#x2F;Slicing（网络分片）、Detnet（确定性网络技术）、iFIT（随路流检测技术）、BIER6、APN6（应用感知网络）等协议为代表的IPv6+ 技术体系。这个技术体系实现网络统一部署、灵活编程、任意扩展，并支持网络可视、应用感知、弹性分片等能力，将成为下一代互联网部署的核心技术。</p>
+<p>IPv6 不是下一代互联网的全部，而是下一代互联网创新的起点和平台。随着 IPv6 的规模部署，以 SRv6 为代表的 IPv6+ 技术将在网络中广泛应用，形成像 MPLS 一样的一个时代，构建出自动化、可承诺的下一代网络，推动云业务的迅速发展的同时，助力企业数字化转型加速。</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/StarryCSF/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s1.ax1x.com/2023/08/04/pPkQPL4.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s1.ax1x.com/2023/08/04/pPkQPL4.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">Fan</div><div class="post-copyright__author_desc">折若木以拂日兮,聊逍遥以相羊</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/')">IPV6安全</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="/StarryCSF/money/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/money/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/StarryCSF/money/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/money/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=IPV6安全&amp;url=https://gitee.com/StarryCSF/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/&amp;pic=/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/ipv6.jpg" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://gitee.com/StarryCSF/StarryCSF" target="_blank">StarryCSF</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"></div></div></div><div class="post_share"><div class="social-share" data-image="/StarryCSF/2023/08/05/%E5%A4%A7%E6%95%B0%E6%8D%AE/dsj.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/StarryCSF/2023/08/03/%E5%A4%8D%E6%B4%BB%E5%90%A7%EF%BC%81%E6%88%91%E7%9A%84Blog/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/2023/08/03/%E5%A4%8D%E6%B4%BB%E5%90%A7%EF%BC%81%E6%88%91%E7%9A%84Blog/1.jpeg" onerror="onerror=null;src='/StarryCSF/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">复活吧！我的Blog</div></div></a></div><div class="next-post pull-right"><a href="/StarryCSF/2023/08/05/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%8D%E4%B9%A0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/2023/08/05/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%8D%E4%B9%A0/rgzn.jpg" onerror="onerror=null;src='/StarryCSF/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">人工智能复习</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-top" title="点击展开"><div class="card-info-avatar"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s1.ax1x.com/2023/08/04/pPkQPL4.jpg" onerror="this.onerror=null;this.src='/StarryCSF/img/friend_404.gif'" alt="avatar"/></div></div></div><div class="author-info__description"></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-IPv6%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3"><span class="toc-number">1.</span> <span class="toc-text">1 IPv6安全隐患</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-IPv6%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 IPv6安全技术简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-IPv6%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 IPv6安全隐患</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%96%B9%E6%B3%95%E6%8E%AA%E6%96%BD"><span class="toc-number">2.</span> <span class="toc-text">2 方法措施</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%BA%94%E5%AF%B9IPv6%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3%E7%9A%84%E6%8E%AA%E6%96%BD"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 应对IPv6安全隐患的措施</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">3 技术实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-IPv6%E8%AE%A4%E8%AF%81"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 IPv6认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-IPv6%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF%E8%BF%87%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 IPv6加密技术过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E7%BB%93%E8%AE%BA%E4%B8%8E%E5%B1%95%E6%9C%9B"><span class="toc-number">4.</span> <span class="toc-text">4.结论与展望</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/StarryCSF/2023/08/05/%E5%A4%A7%E6%95%B0%E6%8D%AE/" title="大数据复习"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/2023/08/05/%E5%A4%A7%E6%95%B0%E6%8D%AE/dsj.png" onerror="this.onerror=null;this.src='/StarryCSF/img/404.jpg'" alt="大数据复习"/></a><div class="content"><a class="title" href="/StarryCSF/2023/08/05/%E5%A4%A7%E6%95%B0%E6%8D%AE/" title="大数据复习">大数据复习</a><time datetime="2023-08-05T03:05:09.000Z" title="发表于 2023-08-05 11:05:09">2023-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/StarryCSF/2023/08/05/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%8D%E4%B9%A0/" title="人工智能复习"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/2023/08/05/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%8D%E4%B9%A0/rgzn.jpg" onerror="this.onerror=null;this.src='/StarryCSF/img/404.jpg'" alt="人工智能复习"/></a><div class="content"><a class="title" href="/StarryCSF/2023/08/05/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%8D%E4%B9%A0/" title="人工智能复习">人工智能复习</a><time datetime="2023-08-05T02:58:20.000Z" title="发表于 2023-08-05 10:58:20">2023-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/" title="IPV6安全"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/ipv6.jpg" onerror="this.onerror=null;this.src='/StarryCSF/img/404.jpg'" alt="IPV6安全"/></a><div class="content"><a class="title" href="/StarryCSF/2023/08/05/IPV6%E5%AE%89%E5%85%A8/" title="IPV6安全">IPV6安全</a><time datetime="2023-08-05T02:39:56.000Z" title="发表于 2023-08-05 10:39:56">2023-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/StarryCSF/2023/08/03/%E5%A4%8D%E6%B4%BB%E5%90%A7%EF%BC%81%E6%88%91%E7%9A%84Blog/" title="复活吧！我的Blog"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/2023/08/03/%E5%A4%8D%E6%B4%BB%E5%90%A7%EF%BC%81%E6%88%91%E7%9A%84Blog/1.jpeg" onerror="this.onerror=null;this.src='/StarryCSF/img/404.jpg'" alt="复活吧！我的Blog"/></a><div class="content"><a class="title" href="/StarryCSF/2023/08/03/%E5%A4%8D%E6%B4%BB%E5%90%A7%EF%BC%81%E6%88%91%E7%9A%84Blog/" title="复活吧！我的Blog">复活吧！我的Blog</a><time datetime="2023-08-03T03:12:47.000Z" title="发表于 2023-08-03 11:12:47">2023-08-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/StarryCSF/2021/10/05/NISP%E4%B8%80%E7%BA%A7%E9%A2%98%E5%BA%93/" title="NISP一级题库"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/StarryCSF/2021/10/05/NISP%E4%B8%80%E7%BA%A7%E9%A2%98%E5%BA%93/ni.jpg" onerror="this.onerror=null;this.src='/StarryCSF/img/404.jpg'" alt="NISP一级题库"/></a><div class="content"><a class="title" href="/StarryCSF/2021/10/05/NISP%E4%B8%80%E7%BA%A7%E9%A2%98%E5%BA%93/" title="NISP一级题库">NISP一级题库</a><time datetime="2021-10-05T02:31:11.000Z" title="发表于 2021-10-05 10:31:11">2021-10-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2021 - 2023 By <a class="footer-bar-link" href="/StarryCSF/" title="Fan" target="_blank">Fan</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://www.sogou.com/" title="搜狗">搜狗</a></div></div></div></footer></div></div></div><div id="sidebar"><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s1.ax1x.com/2023/08/04/pPkQPL4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/StarryCSF/archives/" title="archive"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/StarryCSF/tags/" title="tag"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/StarryCSF/categories/" title="category"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child" style="left:-31px;"><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child" style="left:-79px;"><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/StarryCSF/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/StarryCSF/js/utils.js"></script><script src="/StarryCSF/js/main.js"></script><script src="/StarryCSF/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.14/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.3.1/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2021 By 安知鱼 V1.5.3",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#3b70fc",
+      "",
+      "color:#3b70fc",
+      "color:#3b70fc",
+      "",
+      "color:#3b70fc",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Fan 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "visitor@anheyu.com";</script><script>//动态标题
+let leaveTitle = 'w(ﾟДﾟ)w 不要走';
+let backTitle = '♪(^∇^*)欢迎回来';
+let OriginTitile = document.title
+let titleTime
+document.addEventListener('visibilitychange', function () {
+  if (document.hidden) {
+    //离开当前页面时标签显示内容
+    document.title = leaveTitle
+    clearTimeout(titleTime)
+  } else {
+    //返回当前页面时标签显示内容
+    document.title = backTitle + OriginTitile
+    //两秒后变回正常标题
+    titleTime = setTimeout(function () {
+      document.title = OriginTitile
+    }, 2000)
+  }
+})</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script>// 初始化函数
+let rm = {};
+
+//禁止图片与超链接拖拽
+let aElements = document.getElementsByTagName("a");
+for (let i = 0; i < aElements.length; i++) {
+  aElements[i].setAttribute("draggable", "false");
+  let imgElements = aElements[i].getElementsByTagName("img");
+  for (let j = 0; j < imgElements.length; j++) {
+    imgElements[j].setAttribute("draggable", "false");
+  }
+}
+
+// 显示菜单
+rm.showRightMenu = function (isTrue, x = 0, y = 0) {
+  console.info(x, y)
+  let rightMenu = document.getElementById("rightMenu");
+  rightMenu.style.top = x + "px";
+  rightMenu.style.left = y + "px";
+  if (isTrue) {
+    rightMenu.style.display = "block";
+    stopMaskScroll();
+  } else {
+    rightMenu.style.display = "none";
+  }
+};
+
+// 隐藏菜单
+rm.hideRightMenu = function () {
+  rm.showRightMenu(false);
+  let rightMenuMask = document.querySelector("#rightmenu-mask");
+  rightMenuMask.style.display = "none";
+};
+
+// 尺寸
+let rmWidth = document.getElementById("rightMenu").offsetWidth;
+let rmHeight = document.getElementById("rightMenu").offsetHeight;
+
+// 重新定义尺寸
+rm.reloadrmSize = function () {
+  rightMenu.style.visibility = "hidden";
+  rightMenu.style.display = "block";
+  // 获取宽度和高度
+  rmWidth = document.getElementById("rightMenu").offsetWidth;
+  rmHeight = document.getElementById("rightMenu").offsetHeight;
+  rightMenu.style.visibility = "visible";
+};
+
+// 获取点击的href
+let domhref = "";
+let domImgSrc = "";
+let globalEvent = null;
+
+var oncontextmenuFunction = function (event) {
+  if (document.body.clientWidth > 768) {
+    let pageX = event.clientX + 10; //加10是为了防止显示时鼠标遮在菜单上
+    let pageY = event.clientY;
+
+    //其他额外菜单
+    const $rightMenuOther = document.querySelector(".rightMenuOther");
+    const $rightMenuPlugin = document.querySelector(".rightMenuPlugin");
+    const $rightMenuCopyText = document.querySelector("#menu-copytext");
+    const $rightMenuPasteText = document.querySelector("#menu-pastetext");
+    const $rightMenuCommentText = document.querySelector("#menu-commenttext");
+    const $rightMenuNewWindow = document.querySelector("#menu-newwindow");
+    const $rightMenuNewWindowImg = document.querySelector("#menu-newwindowimg");
+    const $rightMenuCopyLink = document.querySelector("#menu-copylink");
+    const $rightMenuCopyImg = document.querySelector("#menu-copyimg");
+    const $rightMenuDownloadImg = document.querySelector("#menu-downloadimg");
+    const $rightMenuSearch = document.querySelector("#menu-search");
+    const $rightMenuSearchBaidu = document.querySelector("#menu-searchBaidu");
+    const $rightMenuMusicToggle = document.querySelector("#menu-music-toggle");
+    const $rightMenuMusicBack = document.querySelector("#menu-music-back");
+    const $rightMenuMusicForward = document.querySelector("#menu-music-forward");
+    const $rightMenuMusicPlaylist = document.querySelector("#menu-music-playlist");
+    const $rightMenuMusicCopyMusicName = document.querySelector("#menu-music-copyMusicName");
+
+    let href = event.target.href;
+    let imgsrc = event.target.currentSrc;
+
+    // 判断模式 扩展模式为有事件
+    let pluginMode = false;
+    $rightMenuOther.style.display = "block";
+    globalEvent = event;
+
+    // 检查是否需要复制 是否有选中文本
+    if (selectTextNow && window.getSelection()) {
+      pluginMode = true;
+      $rightMenuCopyText.style.display = "block";
+      $rightMenuCommentText.style.display = "block";
+      $rightMenuSearch.style.display = "block";
+      $rightMenuSearchBaidu.style.display = "block";
+    } else {
+      $rightMenuCopyText.style.display = "none";
+      $rightMenuCommentText.style.display = "none";
+      $rightMenuSearchBaidu.style.display = "none";
+      $rightMenuSearch.style.display = "none";
+    }
+
+    //检查是否右键点击了链接a标签
+    if (href) {
+      pluginMode = true;
+      $rightMenuNewWindow.style.display = "block";
+      $rightMenuCopyLink.style.display = "block";
+      domhref = href;
+    } else {
+      $rightMenuNewWindow.style.display = "none";
+      $rightMenuCopyLink.style.display = "none";
+    }
+
+    //检查是否需要复制图片
+    if (imgsrc) {
+      pluginMode = true;
+      $rightMenuCopyImg.style.display = "block";
+      $rightMenuDownloadImg.style.display = "block";
+      $rightMenuNewWindowImg.style.display = "block";
+      document.getElementById("rightMenu").style.width="12rem"
+      domImgSrc = imgsrc;
+    } else {
+      $rightMenuCopyImg.style.display = "none";
+      $rightMenuDownloadImg.style.display = "none";
+      $rightMenuNewWindowImg.style.display = "none";
+    }
+
+    // 判断是否为输入框
+    if (event.target.tagName.toLowerCase() === "input" || event.target.tagName.toLowerCase() === "textarea") {
+      pluginMode = true;
+      $rightMenuPasteText.style.display = "block";
+    } else {
+      $rightMenuPasteText.style.display = "none";
+    }
+    const navMusicEl = document.querySelector("#nav-music");
+    //判断是否是音乐
+    if (navMusicEl && navMusicEl.contains(event.target)) {
+      pluginMode = true;
+      $rightMenuMusicToggle.style.display = "block";
+      $rightMenuMusicBack.style.display = "block";
+      $rightMenuMusicForward.style.display = "block";
+      $rightMenuMusicPlaylist.style.display = "block";
+      $rightMenuMusicCopyMusicName.style.display = "block";
+    } else {
+      $rightMenuMusicToggle.style.display = "none";
+      $rightMenuMusicBack.style.display = "none";
+      $rightMenuMusicForward.style.display = "none";
+      $rightMenuMusicPlaylist.style.display = "none";
+      $rightMenuMusicCopyMusicName.style.display = "none";
+    }
+
+    // 如果不是扩展模式则隐藏扩展模块
+    if (pluginMode) {
+      $rightMenuOther.style.display = "none";
+      $rightMenuPlugin.style.display = "block";
+    } else {
+      $rightMenuPlugin.style.display = "none";
+    }
+
+    rm.reloadrmSize();
+
+    // 鼠标默认显示在鼠标右下方，当鼠标靠右或靠下时，将菜单显示在鼠标左方\上方
+    if (pageX + rmWidth > window.innerWidth) {
+      pageX -= rmWidth + 10;
+    }
+    if (pageY + rmHeight > window.innerHeight) {
+      pageY -= pageY + rmHeight - window.innerHeight;
+    }
+
+    rm.showRightMenu(true, pageY, pageX);
+    document.getElementById("rightmenu-mask").style.display = "flex";
+    return false;
+  }
+};
+
+// 监听右键初始化
+window.oncontextmenu = oncontextmenuFunction
+
+// 下载图片状态
+rm.downloadimging = false;
+
+// 复制图片到剪贴板
+rm.writeClipImg = function (imgsrc) {
+  console.log("按下复制");
+  rm.hideRightMenu();
+  anzhiyu.snackbarShow("正在下载中，请稍后", false, 10000);
+  if (rm.downloadimging == false) {
+    rm.downloadimging = true;
+    setTimeout(function () {
+      copyImage(imgsrc);
+      anzhiyu.snackbarShow("复制成功！图片已添加盲水印，请遵守版权协议");
+      rm.downloadimging = false;
+    }, "10000");
+  }
+};
+
+function imageToBlob(imageURL) {
+  const img = new Image();
+  const c = document.createElement("canvas");
+  const ctx = c.getContext("2d");
+  img.crossOrigin = "";
+  img.src = imageURL;
+  return new Promise(resolve => {
+    img.onload = function () {
+      c.width = this.naturalWidth;
+      c.height = this.naturalHeight;
+      ctx.drawImage(this, 0, 0);
+      c.toBlob(
+        blob => {
+          // here the image is a blob
+          resolve(blob);
+        },
+        "image/png",
+        0.75
+      );
+    };
+  });
+}
+
+async function copyImage(imageURL) {
+  const blob = await imageToBlob(imageURL);
+  const item = new ClipboardItem({ "image/png": blob });
+  navigator.clipboard.write([item]);
+}
+
+rm.copyUrl = function (id) {
+  const input = document.createElement("input"); // Create a new <input> element
+  input.id = "copyVal"; // Set the id of the new element to "copyVal"
+  document.body.appendChild(input); // Append the new element to the end of the <body> element
+  
+  const text = id;
+  input.value = text;
+  input.select();
+  input.setSelectionRange(0, input.value.length);
+  document.execCommand("copy");
+  
+  input.remove(); // Remove the <input> element from the DOM
+};
+
+function stopMaskScroll() {
+  if (document.getElementById("rightmenu-mask")) {
+    let xscroll = document.getElementById("rightmenu-mask");
+    xscroll.addEventListener(
+      "mousewheel",
+      function (e) {
+        //阻止浏览器默认方法
+        rm.hideRightMenu();
+        // e.preventDefault();
+      },
+      { passive: true }
+    );
+  }
+  if (document.getElementById("rightMenu")) {
+    let xscroll = document.getElementById("rightMenu");
+    xscroll.addEventListener(
+      "mousewheel",
+      function (e) {
+        //阻止浏览器默认方法
+        rm.hideRightMenu();
+        // e.preventDefault();
+      },
+      { passive: true }
+    );
+  }
+}
+
+rm.rightmenuCopyText = function (txt) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(txt);
+  }
+  rm.hideRightMenu();
+};
+
+rm.copyPageUrl = function (url) {
+  if (!url) {
+    url = window.location.href;
+  }
+  rm.copyUrl(url);
+  anzhiyu.snackbarShow("复制链接地址成功", false, 2000);
+  rm.hideRightMenu();
+};
+
+rm.sharePage = function () {
+  var content = window.location.href;
+  rm.copyUrl(url);
+  anzhiyu.snackbarShow("复制链接地址成功", false, 2000);
+  rm.hideRightMenu();
+};
+
+// 复制当前选中文本
+var selectTextNow = "";
+document.onmouseup = document.ondblclick = selceText;
+
+function selceText() {
+  var txt;
+  if (document.selection) {
+    txt = document.selection.createRange().text;
+  } else {
+    txt = window.getSelection().toString();
+  }
+  selectTextNow = txt !== "" ? txt : "";
+}
+
+// 读取剪切板
+rm.readClipboard = function () {
+  if (navigator.clipboard) {
+    navigator.clipboard.readText().then(clipText => rm.insertAtCaret(globalEvent.target, clipText));
+  }
+};
+
+// 粘贴文本到焦点
+rm.insertAtCaret = function (elemt, value) {
+  const startPos = elemt.selectionStart,
+    endPos = elemt.selectionEnd;
+  if (document.selection) {
+    elemt.focus();
+    var sel = document.selection.createRange();
+    sel.text = value;
+    elemt.focus();
+  } else {
+    if (startPos || startPos == "0") {
+      var scrollTop = elemt.scrollTop;
+      elemt.value = elemt.value.substring(0, startPos) + value + elemt.value.substring(endPos, elemt.value.length);
+      elemt.focus();
+      elemt.selectionStart = startPos + value.length;
+      elemt.selectionEnd = startPos + value.length;
+      elemt.scrollTop = scrollTop;
+    } else {
+      elemt.value += value;
+      elemt.focus();
+    }
+  }
+};
+
+//粘贴文本
+rm.pasteText = function () {
+  const result = rm.readClipboard() || "";
+  rm.hideRightMenu();
+};
+
+//引用到评论
+rm.rightMenuCommentText = function (txt) {
+  rm.hideRightMenu();
+  const postCommentDom = document.getElementById("post-comment");
+  var domTop = postCommentDom.offsetTop;
+  window.scrollTo(0, domTop - 80);
+  if (txt == "undefined" || txt == "null") txt = "好棒！";
+  function setText() {
+    setTimeout(() => {
+      var input = document.getElementsByClassName("el-textarea__inner")[0];
+      if (!input) setText();
+      let evt = document.createEvent("HTMLEvents");
+      evt.initEvent("input", true, true);
+      let inputValue = replaceAll(txt, "\n", "\n> ");
+      input.value = "> " + inputValue + "\n\n";
+      input.dispatchEvent(evt);
+      input.focus();
+      input.setSelectionRange(-1, -1);
+      if (document.getElementById("comment-tips")) {
+        document.getElementById("comment-tips").classList.add("show");
+      }
+    }, 100);
+  }
+  setText();
+};
+
+//替换所有内容
+function replaceAll(string, search, replace) {
+  return string.split(search).join(replace);
+}
+
+// 百度搜索
+rm.searchBaidu = function () {
+  anzhiyu.snackbarShow("即将跳转到百度搜索", false, 2000);
+  setTimeout(function () {
+    window.open("https://www.baidu.com/s?wd=" + selectTextNow);
+  }, "2000");
+  rm.hideRightMenu();
+};
+
+//分享链接
+rm.copyLink = function () {
+  rm.rightmenuCopyText(domhref);
+  anzhiyu.snackbarShow("已复制链接地址");
+};
+
+function addRightMenuClickEvent() {
+  // 添加点击事件
+  document.getElementById("menu-backward").addEventListener("click", function () {
+  window.history.back();
+    rm.hideRightMenu();
+  });
+
+  document.getElementById("menu-forward").addEventListener("click", function () {
+    window.history.forward();
+    rm.hideRightMenu();
+  });
+
+  document.getElementById("menu-refresh").addEventListener("click", function () {
+    window.location.reload();
+  });
+
+  document.getElementById("menu-top").addEventListener("click", function () {
+    anzhiyu.scrollToDest(0, 500);
+    rm.hideRightMenu();
+  });
+
+  const menuLinks = document.querySelectorAll(".menu-link");
+  menuLinks.forEach(function (link) {
+    link.addEventListener("click", rm.hideRightMenu);
+  });
+
+  document.getElementById("menu-darkmode").addEventListener("click", anzhiyu.switchDarkMode);
+
+  document.getElementById("menu-home") && document.getElementById("menu-home").addEventListener("click", function () {
+    window.location.href = window.location.origin;
+  });
+
+  document.getElementById("menu-randomPost").addEventListener("click", function () {
+    toRandomPost();
+  });
+
+  document.getElementById("menu-commentBarrage").addEventListener("click", anzhiyu.switchCommentBarrage);
+
+  document.getElementById("rightmenu-mask").addEventListener("click", rm.hideRightMenu);
+
+  document.getElementById("rightmenu-mask").addEventListener("contextmenu", function (event) {
+    rm.hideRightMenu();
+    event.preventDefault(); // Prevent the default context menu from appearing
+  });
+
+  document.getElementById("menu-copy").addEventListener("click", rm.copyPageUrl);
+
+  document.getElementById("menu-pastetext").addEventListener("click", rm.pasteText);
+
+  document.getElementById("menu-copytext").addEventListener("click", function () {
+    rm.rightmenuCopyText(selectTextNow);
+    anzhiyu.snackbarShow("复制成功，复制和转载请标注本文地址");
+  });
+
+  document.getElementById("menu-commenttext").addEventListener("click", function () {
+    rm.rightMenuCommentText(selectTextNow);
+  });
+
+  document.getElementById("menu-newwindow").addEventListener("click", function () {
+    window.open(domhref, "_blank");
+    rm.hideRightMenu();
+  });
+
+  document.getElementById("menu-copylink").addEventListener("click", rm.copyLink);
+
+  document.getElementById("menu-downloadimg").addEventListener("click", function () {
+    anzhiyu.downloadImage(domImgSrc, "anzhiyu");
+  });
+
+  document.getElementById("menu-newwindowimg").addEventListener("click", function () {
+    window.open(domImgSrc, "_blank");
+    rm.hideRightMenu();
+  });
+
+  document.getElementById("menu-copyimg").addEventListener("click", function () {
+    rm.writeClipImg(domImgSrc);
+  });
+
+  document.getElementById("menu-searchBaidu").addEventListener("click", rm.searchBaidu);
+
+  //音乐
+  document.getElementById("menu-music-toggle").addEventListener("click", anzhiyu.musicToggle);
+
+  document.getElementById("menu-music-back").addEventListener("click", anzhiyu.musicSkipBack);
+
+  document.getElementById("menu-music-forward").addEventListener("click", anzhiyu.musicSkipForward);
+
+  document.getElementById("menu-music-copyMusicName").addEventListener("click", function () {
+    rm.rightmenuCopyText(anzhiyu.musicGetName());
+    anzhiyu.snackbarShow("复制歌曲名称成功", false, 3000);
+  });
+
+}
+
+addRightMenuClickEvent();</script><script data-pjax>var themeColorMeta = document.querySelector('meta[name="theme-color"]');
+var pageHeaderEl = document.getElementById("page-header");
+var navMusicEl = document.getElementById("nav-music");
+var consoleEl = document.getElementById("console");
+// 已随机的歌曲
+var selectRandomSong = [];
+// 音乐默认声音大小
+var musicVolume = 0.8;
+// 是否切换了周杰伦音乐列表
+var changeMusicListFlag = false;
+// 当前默认播放列表
+var defaultPlayMusicList = [];
+
+document.getElementById("page-name").innerText = document.title.split(" | StarryCSF")[0];
+anzhiyu.initIndexEssay();
+anzhiyu.changeTimeInEssay();
+anzhiyu.removeBodyPaceClass();
+anzhiyu.qrcodeCreate();
+anzhiyu.changeTimeInAlbumDetail();
+anzhiyu.reflashEssayWaterFall();
+anzhiyu.sayhi();
+anzhiyu.stopImgRightDrag();
+anzhiyu.addNavBackgroundInit();
+anzhiyu.setValueToBodyType();
+anzhiyu.catalogActive();
+anzhiyu.tagsPageActive();
+anzhiyu.categoriesBarActive();
+anzhiyu.topCategoriesBarScroll();
+anzhiyu.switchRightClickMenuHotReview();
+anzhiyu.getCustomPlayList();
+anzhiyu.addEventListenerConsoleMusicList(false);
+setTimeout(() => {if (typeof addFriendLinksInFooter === "function") {addFriendLinksInFooter();}}, 200)</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div></body></html>
