@@ -11,15 +11,6 @@
   </url>
   
   <url>
-    <loc>https://571253.xyz/posts/25012.html</loc>
-    
-    <lastmod>2025-02-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://571253.xyz/posts/25011.html</loc>
     
     <lastmod>2025-02-16</lastmod>
@@ -30,6 +21,15 @@
   
   <url>
     <loc>https://571253.xyz/posts/25010.html</loc>
+    
+    <lastmod>2025-02-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://571253.xyz/posts/25012.html</loc>
     
     <lastmod>2025-02-16</lastmod>
     
@@ -380,7 +380,7 @@
   </url>
   
   <url>
-    <loc>https://571253.xyz/categories/%E7%94%9F%E6%B4%BB/</loc>
+    <loc>https://571253.xyz/categories/%E7%BC%96%E8%AF%91%E8%B7%AF%E7%BA%BF/</loc>
     <lastmod>2025-02-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -394,14 +394,14 @@
   </url>
   
   <url>
-    <loc>https://571253.xyz/categories/%E5%A4%A7%E5%AD%A6/</loc>
+    <loc>https://571253.xyz/categories/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2025-02-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://571253.xyz/categories/%E7%BC%96%E8%AF%91%E8%B7%AF%E7%BA%BF/</loc>
+    <loc>https://571253.xyz/categories/%E5%A4%A7%E5%AD%A6/</loc>
     <lastmod>2025-02-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
