@@ -101,4 +101,6 @@ theme: anzhiyu
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repository: https://github.com/StarryCSF/StarryCSF.Github.io.git
+  branch: master
