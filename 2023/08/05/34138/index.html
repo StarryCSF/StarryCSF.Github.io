@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>IPV6安全 | StarryCSF</title><meta name="author" content="Fan"><meta name="copyright" content="Fan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="IPV6安全"><meta name="application-name" content="IPV6安全"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="IPV6安全"><meta property="og:url" content="https://starrycsf.github.io/2023/08/05/34138/index.html"><meta property="og:site_name" content="StarryCSF"><meta property="og:description" content="IPv6安全机制论述 目  录 1 IPv6安全隐患.. 1  1.1 IPv6安全技术简介… 1  1.1.1 IPv6安全技术的历史背景… 1   1.1.2 IPv6安全技术的特点… 1  1.2 IPv6安全隐患… 2   1.2.1 IPv4向IPv6过渡技术的隐患… 2   1.2.2"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://starrycsf.github.io/img/avatar.png"><meta property="article:author" content="Fan"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://starrycsf.github.io/img/avatar.png"><meta name="description" content="IPv6安全机制论述 目  录 1 IPv6安全隐患.. 1  1.1 IPv6安全技术简介… 1  1.1.1 IPv6安全技术的历史背景… 1   1.1.2 IPv6安全技术的特点… 1  1.2 IPv6安全隐患… 2   1.2.1 IPv4向IPv6过渡技术的隐患… 2   1.2.2"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://starrycsf.github.io/2023/08/05/34138/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w","backTitle":"♪(^∇^*)"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: undefined,
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Fan","link":"链接: ","source":"来源: StarryCSF","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'StarryCSF',
+  title: 'IPV6安全',
+  postAI: '',
+  pageFillDescription: '1 IPv6安全隐患, 1.1 IPv6安全技术简介, 1.2 IPv6安全隐患, 2 方法措施, 2.1 应对IPv6安全隐患的措施, 3 技术实现, 3.1 IPv6认证, 3.2 IPv6加密技术过程, 4.结论与展望安全机制论述目录安全隐患安全技术简介安全技术的历史背景安全技术的特点安全隐患向过渡技术的隐患中组播技术缺陷的隐患邻居发现协议的隐患邻居发现协议的隐患方法措施应对安全隐患的措施加大防护技术的研究投入加快信息安全产品研制技术实现认证身份认证的实现层次移动接入认证设计加密技术过程加密分析验证与加密的结合分析结论与展望安全隐患安全技术简介安全技术的历史背景以为核心技术的获得巨大成功但随着网络技术的飞速发展地址资源的枯竭以及其固有的局限性无法满足网络发展的需求也带来了一些问题比如现有的地址匮乏服务保障问题等自从年推进互联网协议第六版规模部署行动计划发布以来经过数年的努力我国电信网络基础设施改造已全面完成目前正在政府部门的推动下大规模部署中国也拥有了根服务器截至年月全国已有亿用户获得地址主要互联网应用活跃用户数已达亿户政府网政务网中央媒体中央企业网站和各大门户网站均已实现升级改造已能支持和访问各行业内网升级改造也正逐步展开我国将长期处于和的混合环境之下从而也带来了新的安全挑战新形式下的风险防范亟待关注如何做好新环境下的安全防护也将是今后的重要课题安全技术的特点地址空间大这是最大的特点地址一共有作为对比仅有如果要直观体现究竟大了多少的话的地址数量等于地址数量再乘以三个亿这就是为什么有人敢说可以为每一粒沙都分配地址的原因精简报文结构的报文结构相比精简了许多的报文长度不固定且有一个变化无常的字段来实现一些功能在此前提下长度固定且将字段分片的字段的功能转移到扩展报头中这就极大的精简了的报文结构更多的功能通过添加不同的扩展报头来实现实现自动配置和前缀重新编址在网络环境中路由器会通告自身接口的前缀信息给终端设备终端设备通过前缀然后自己通过计算生成接口标识就可以为自己生成一个可用的地址同时还会将路由作为自己的默认网关就算这时需要将已经获得地址的终端设备移动到另一个网段的网络接入那终端设备也可以通过上述过程自动更改自己的地址支持层次化网络结构不再像一样按照等分类来划分地址而是通过这样的顺序来分配的是国际互联网号码分配机构是区域互连网注册管理机构是一些运营商例如电信移动联通会合理给五个我们所在区域的机构是亚太网络信息中心来分配地址然后五个再向区域内的国家合理配置地址每个国家分配到的地址再交给运营商然后运营商再来合理的分配资源给用户在这个分配过程中将能够尽力避免出现网络地址子网不连续的情况这样可以更好的聚合路由减少骨干网络上的路由条目更好的支持通过两个方面来更好的支持了优先级字段有可以用作优先级表示可以表示个不同的优先级新增的流标签字段可以配合源地址目的地址来定义一条数据流早期流分类要通过源目的源端口目的端口协议五元组才能定义一条数据流而这个定义过程需要拆封装到传输层才可以定义有了流标签字段以后可以直接通过网络层的信息就可以实现流分类这样就大大地提高了流分类的效率原生支持端到端的安全的扩展报头中有一个认证报头封装安全净载报头这两个报头是定义的通过这两个报头网络层自己就可以实现端到端的安全而无需像协议一样需要其他协议的帮助支持移动特性支持终端设备移动的特性顾名思义就是在终端设备移动到另一个网络环境中也可以快速恢复通讯这还是概念在实验中未正式投入使用比如一个主机从网络环境中迁移到了网络环境中主机通过前缀重新编址得知自己的网络位置于是乎向以前的网关路由器发送报文来通告自己的新地址以前的网关路由器只要收到发给主机的数据就会截获并发送到主机的新地址主机收到数据之后就会知道有人想与自己通信就会给这个数据的源地址发送一个报文通告自己现在的新地址这样主机就算迁移了到了新的网络环境也可以实现流量不断的能力安全隐患向过渡技术的隐患从协议本身来看与并没有太大的区别它是一个无连接的网络协议使用与相同的下层服务并向上层提供相同的服务双栈机制安全风险过渡期间双栈部署的网络中同时运行着两个逻辑通道增加了设备系统的暴露面也意味着防火墙安全网关等防护设备需同时配置双栈策略导致策略管理复杂度加倍防护被穿透的机会加倍网络中部分操作系统缺省启动了自动地址配置功能使得网络中存在隐蔽的通道由于该通道并没有进行防护配置攻击者可以利用通道实施攻击此外双栈系统的复杂性也会增加网络节点的数据转发负担导致网络节点的故障率增加隧道机制安全风险在隧道环境下部分隧道机制仅要求隧道出入口节点对报文进行简单的封装和解封缺乏内置认证加密等安全功能导致攻击者可能截取隧道报文伪造用户地址并伪装成合法用户发起攻击以为例攻击者可伪造内层外层地址发起仿冒攻击等安全风险此外由于部分隧道机制未采取对隧道封装内容的检查因此攻击者可将流量承载在报文中导致原来网络的攻击流量经由的掩护后穿越防护造成威胁翻译机制安全风险翻译机制协议转换是为网络节点与网络节点相互通信提供透明的路由翻译设备作为与互连节点易成为安全瓶颈面临地址池耗尽等常见攻击威胁攻击者可通过伪造大量地址向翻译节点发起地址转换请求消耗地址池资源同时导致合法用户无法获取地址进而引发网络无法正常访问导致网络瘫痪双协议栈会带来新的安全问题对于同时支持和的主机黑客可以同时用两种协议进行协调攻击发现两种协议中存在的安全弱点和漏洞或者利用两种协议版本中安全设备的协调不足来逃避检测而且双协议栈中一种协议的漏洞会影响另一种协议的正常工作由于隧道机制对任何来源的数据包只进行简单的封装和解封而不对和地址的关系做严格的检查所以隧道机制的引入会给网络安全带来更复杂的问题也较多的出现安全隐患中组播技术缺陷的隐患组播报文是通过用户数据报协议进行传输的所以它缺乏传输控制协议所提供的可靠传输的功能组播的开放性使通信数据缺乏机密性和完整性的安全保护而组播所需的等组播维护协议不能满足安全的需要组播使用任何主机都可以向某个组播地址发送包并且低层组播机构将传送这些包到所有组成员由于在组播通信中任何成员都可以利用报文请求临近的路由加入组播群组组播加入成员的约束机制很匮乏无法保证通信的机密性因此对机密数据的窃听将非常容易邻居发现协议的隐患在自动地址配置中邻居发现协议是基于的协议结构用来完成邻居可达性检测链路地址解析路由及网络前缀发现流量重定向等链路机制报文身份的可鉴别性是协议的主要安全需求而哄骗报文攻击是其所而临的主要安全威胁攻击者只要仿造节点不可达信息和重复地址检测进行攻击或者传播虚假的路由响应和重定向报文就能诱骗网络流量邻居发现协议的隐患针对密码的攻击对一些老版本的操作系统有的组件不是在验证网络传输标识信息时进行信息保护于是窃听者可以捕获有效的用户名及其密码掌握合法用户权限进入机器内部破坏针对密钥的攻击下的两种工作模式都要交换密钥一旦攻击者破解到正确的密钥就可以得到安全通信的访问权监听发送者或接收者的传输数据甚至解密或窜改数据加密耗时过长引发的攻击加密需要很大的计算量如果黑客向目标主机发送大规模看似合法事实上却是任意填充的加密数据包目标主机将耗费大量时间来检测数据包而无法回应其他用户的通信请求方法措施应对安全隐患的措施加大防护技术的研究投入从协议的自身特点来看容易受到分片攻击邻居发现协议攻击扩展头攻击等应针对各种攻击类型的特点开展攻击原理分析攻击检测攻击防御攻击解决方案研究在向演进的过程中应将过渡机制与安全问题结合起来实现平滑无缝安全的过渡技术进行新的安全体系设计在新技术新应用结合方面应开展环境下移动互联网物联网云计算等领域网络安全技术管理及机制研究工作如移动互联网下应关注的移动性安全管理物联网中应关注在感知层应用的安全问题云计算方面应关注基于的云计算平台安全解决方案等问题加快信息安全产品研制应对现有网络安全保障系统进行升级改造提升对地址和网络环境的支持能力根据行动计划的要求各种安全产品应增强地址精准定位侦查打击和快速处置能力同时应开展针对的网络安全等级保护个人信息保护风险评估通报预警灾难备份及恢复等工作技术实现认证身份认证的实现下身份认证的实现主要是通过其数据报的头设计认证头部协议的目的是用来增加数据报的安全性协议提供无连接的完整性数据源认证和抗重放保护服务数据完整性特征保证在传输过程中对数据报内容的修改都可以检测出来认证特征使得终端系统或网络设备能够认证用户或应用的身份并相应地过滤通信量它也可以防止在今天的上可以观察到的地址欺骗攻击还能对付重放攻击然而不提供任何保密它不加密所保护的数据报的作用是为数据流提供高强度的密码认证以确保被修改过的数据报可以被检查出来图报文头层次移动接入认证设计层次移动引入移动锚点作用如同一个本地家乡代理它将代表其所服务的移动节点接收所有数据包并将这些数据包封装后直接转发至移动节点的当前地址如果移动节点在本地域中更改其当前地址即在线转交地址只需在相应的注册新的因此移动节点在对端节点或家乡代理注册本地转交地址后如果移动节点在一个域中移动则不发生改变这使移动节点的移动对于与其通信的对端节点是透明的在无线链路情况下层次移动可以减少通过空中接口发送到通信对端或家乡代理的消息数目移动锚点的引入有利于移动协议减少与外部网络之间的移动信令传输采用协议作为接入认证方式在消息中添加用户名和密码选项来传送认证信息在层次移动的启动过程中当收到路由通告发现与自己的路由缓存中维护的路由前缀不一样时发送一个信号量启动客户端子进程开始接入认证过程在协议中创建用户名密码和认证失败选项在填充选项内容时用户名和密码通过对的配置文件进行读取操作由服务器预先分配给用户在获取密码后通过标准的加密算法对原始密码采用双方协商好的密钥进行加密由于只能对不大于字节的字符进行加密所以在加密过程中先计算原始密码的长度如果小于或等于字节则直接进行加密如果大于字节则截取前个字节进行加密再对剩余的字节进行相同的加密过程把生成的密码拷贝到密码选项中为了简化运算在该文中默认密码字节不大于字节一般能满足实际运用在客户端消息选项中添加用户名和密码选项的标识通过标识对相应的选项进行处理当客户端在构建消息时把定义好的用户名和密码标识通过系统函数添加到消息中完成后发送该消息给服务器服务器端收到消息后通过语句对标识进行处理获取选项中的用户名和密码密文字符其中通过解密算法对收到的密文使用原先加密用的密钥进行解密假如密文大于个字节则先对前个字节进行解密之后在对剩余的字节进行解密把解密好的密码和用户名通过字符读取操作存到的配置文件中完成后在服务器创建子进程来启动客户端程序并且构造报文在其中创建一个消息队列来等待接收客户端认证完成后返回的认证结果如果收到认证成功标识则从地址池中获取一个合法地址添加到该消息选项中完成后发送消息并且将的地址和地址发送到包过滤器的访问控制列表中如果收到认证失败标识则在构造的消息中添加一个认证失败信息选项该认证选项标识为将认证失败信息添加到该选项中并且删除准备分配给客户端的合法地址选项完成后发送消息对收到的报文进行判断使用语句对消息中各选项进行处理如果认证成功则含有地址选项标识从中获取合法地址分配给接口使用可以使用当地网络提供的服务或者完成切换绑定认证过程如果认证失败不含有地址选项而含有选项可以获取该选项中相应的出错信息进行再次认证或是退出该网络加密技术过程加密分析也就是当中的封装安全载荷它的出现主要是为了实现与间混合业务的安全实现其主要的工作流程是对所有的数据以及加载进行的舍监地严格的加密提高其传输的机密性从而达到避免无关用户对正在进行交换的信息进行监听的现象只有可依赖的用户通过密钥方式才能够打开相关传输内容另外在数据的完整性方面也有一定的贡献数据加密标准是的主要标准验证与加密的结合分析使用与是对一个数据包进行数据机密性真实性与完整性提供的最初概念所说在说在设想范围之内两个扩展报头会在许多不同的情况之间被同时使用就会使得数据包的整体规格变大这样一来验证功能就会在的报尾得到额外的嵌入从而对的序列号和有效载荷提供一种保护所以说在验证与加密的问题上协议的研制者还存在关个待解决的问题那就是同时使用与和单单使用报头的选择性问题特别需要强调的是的报伪可以为数据提供个验证功能但是无论是哪一种选择在传输与隧道模式当中进行数据传输之时与与的组合使用并无关系头如图所示结论与展望为了满足广域网络的灵活组网按需服务差异化保障网络可视化等需求出现了以网络基础隧道网络分片确定性网络技术随路流检测技术应用感知网络等协议为代表的技术体系这个技术体系实现网络统一部署灵活编程任意扩展并支持网络可视应用感知弹性分片等能力将成为下一代互联网部署的核心技术不是下一代互联网的全部而是下一代互联网创新的起点和平台随着的规模部署以为代表的技术将在网络中广泛应用形成像一样的一个时代构建出自动化可承诺的下一代网络推动云业务的迅速发展的同时助力企业数字化转型加速',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-03-07 00:06:35',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 8.1.1"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">StarryCSF</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/01/"><span class="card-archive-list-date">一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/09/"><span class="card-archive-list-date">九月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">八月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/07/"><span class="card-archive-list-date">七月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/01/"><span class="card-archive-list-date">一月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%A4%A7%E5%AD%A6/" itemprop="url">大学</a></span><span class="article-meta tags"></span></div></div><h1 class="post-title" itemprop="name headline">IPV6安全</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-08-05T02:39:56.000Z" title="发表于 2023-08-05 10:39:56">2023-08-05</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-03-06T16:06:35.233Z" title="更新于 2026-03-07 00:06:35">2026-03-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为长沙"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>长沙</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://starrycsf.github.io/2023/08/05/34138/"><header><a class="post-meta-categories" href="/categories/%E5%A4%A7%E5%AD%A6/" itemprop="url">大学</a><h1 id="CrawlerTitle" itemprop="name headline">IPV6安全</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Fan</span><time itemprop="dateCreated datePublished" datetime="2023-08-05T02:39:56.000Z" title="发表于 2023-08-05 10:39:56">2023-08-05</time><time itemprop="dateCreated datePublished" datetime="2026-03-06T16:06:35.233Z" title="更新于 2026-03-07 00:06:35">2026-03-07</time></header><p><strong>IPv6安全机制论述</strong></p>
+<p>目  录</p>
+<p><a href="#_Toc138249995">1 IPv6安全隐患.. 1</a></p>
+<p> <a href="#_Toc138249996">1.1 IPv6安全技术简介… 1</a></p>
+<p> <a href="#_Toc138249997">1.1.1 IPv6安全技术的历史背景… 1</a></p>
+<p>  <a href="#_Toc138249998">1.1.2 IPv6安全技术的特点… 1</a></p>
+<p> <a href="#_Toc138249999">1.2 IPv6安全隐患… 2</a></p>
+<p>  <a href="#_Toc138250000">1.2.1 IPv4向IPv6过渡技术的隐患… 2</a></p>
+<p>  <a href="#_Toc138250001">1.2.2 IPv6中组播技术缺陷的隐患… 3</a></p>
+<p>  <a href="#_Toc138250002">1.2.3 邻居发现协议的隐患… 3</a></p>
+<p>  <a href="#_Toc138250003">1.2.4 邻居发现协议的隐患… 3</a></p>
+<p><a href="#_Toc138250004">2 方法措施.. 5</a></p>
+<p> <a href="#_Toc138250005">2.1 应对IPv6安全隐患的措施… 5</a></p>
+<p> <a href="#_Toc138250006">2.1.1 加大防护技术的研究投入… 5</a></p>
+<p> <a href="#_Toc138250007">2.1.2 加快信息安全产品研制。… 5</a></p>
+<p><a href="#_Toc138250008">3 技术实现.. 6</a></p>
+<p> <a href="#_Toc138250009">3.1 IPv6认证… 6</a></p>
+<p>  <a href="#_Toc138250010">3.1.1 IPv6身份认证的实现… 6</a></p>
+<p>  <a href="#_Toc138250011">3.1.2 层次移动IP接入认证设计… 6</a></p>
+<p>  <a href="#_Toc138250012">3.2 IPv6加密技术过程… 8</a></p>
+<p>  <a href="#_Toc138250013">3.2.1 IPv6加密分析… 8</a></p>
+<p>  <a href="#_Toc138250014">3.2.2 IPv6验证与加密的结合分析… 8</a></p>
+<p><a href="#_Toc138250016">4 结论与展望.. 10</a></p>
+<h1 id="1-IPv6安全隐患"><a href="#1-IPv6安全隐患" class="headerlink" title="1 IPv6安全隐患"></a>1 IPv6安全隐患</h1><h2 id="1-1-IPv6安全技术简介"><a href="#1-1-IPv6安全技术简介" class="headerlink" title="1.1 IPv6安全技术简介"></a>1.1 IPv6安全技术简介</h2><p>1.1.1 IPv6安全技术的历史背景</p>
+<p>以IPv4为核心技术的Internet获得巨大成功，但随着网络技术的飞速发展，IPv4地址资源的枯竭，以及其固有的局限性无法满足网络发展的需求，也带来了一些问题，比如现有的IPv4地址匮乏、服务保障问题等。自从2017年《推进互联网协议第六版（IPv6）规模部署行动计划》发布以来，经过数年的努力，我国电信网络基础设施IPv6改造已全面完成。目前IPv6正在政府部门的推动下大规模部署，中国也拥有了IPv6根服务器。截至2019年7月，全国已有12.78亿用户获得IPv6地址，主要互联网应用活跃用户数已达2.01亿户。政府网、政务网、中央媒体、中央企业网站和各大门户网站均已实现IPv6升级改造，已能支持IPv4和IPv6访问，各行业内网升级改造也正逐步展开。我国将长期处于IPv4和IPv6的混合环境之下，从而也带来了新的安全挑战，新形式下的风险防范亟待关注，如何做好新环境下的安全防护，也将是今后的重要课题。</p>
+<p>1.1.2 IPv6安全技术的特点</p>
+<p>（1）地址空间大</p>
+<p>这是 IPv6 最大的特点，IPv6 地址一共有 128 bit。作为对比，IPv4 仅有 32 bit；如果要直观体现 128 bit 究竟大了多少的话，IPv6 的地址数量等于 IPv4 地址数量再乘以三个 42 亿。这就是为什么有人敢说 IPv6 可以为每一粒沙都分配 IP 地址的原因。</p>
+<p>（2）精简报文结构</p>
+<p>IPv6 的报文结构相比 IPv4 精简了许多。IPv4 的报文长度不固定，且有一个变化无常的 option 字段来实现一些功能；IPv6 在此前提下长度固定，且将 option 字段、分片的字段的功能转移到 IPv6 扩展报头中。这就极大的精简了 IPv6 的报文结构，更多的功能通过添加不同的扩展报头来实现。</p>
+<p>（3）实现自动配置和前缀重新编址</p>
+<p>在 IPv6 网络环境中，路由器会通告自身接口的前缀信息给终端设备；终端设备通过 IPv6 前缀，然后自己通过计算生成接口标识就可以为自己生成一个可用的 IPv6 地址，同时还会将路由作为自己的默认网关。就算这时需要将已经获得 IPv6 地址的终端设备移动到另一个网段的网络接入，那终端设备也可以通过上述过程自动更改自己的 IPv6 地址。</p>
+<p>（4）支持层次化网络结构</p>
+<p>IPv6 不再像 IPv4 一样按照 A、B、C等分类来划分地址，而是通过IANA-&gt;RIR -&gt;ISP 这样的顺序来分配的。</p>
+<p>IANA 是国际互联网号码分配机构，RIR是区域互连网注册管理机构，ISP是一些运营商（例如电信、移动、联通）。IANA 会合理给五个 RIR（我们所在区域的机构是 APNIC 亚太网络信息中心） 来分配 IPv6 地址，然后五个 RIR 再向区域内的国家合理配置地址，每个国家分配到的地址再交给 ISP 运营商，然后运营商再来合理的分配资源给用户。</p>
+<p>在这个分配过程中将能够尽力避免出现网络地址子网不连续的情况，这样可以更好的聚合路由，减少骨干网络上的路由条目。</p>
+<p>（5）更好的支持 QoS</p>
+<p>IPv6 通过两个方面来更好的支持了 QoS：优先级字段有 6 bit 可以用作优先级表示，可以表示64个不同的优先级。新增的流标签字段可以配合源地址、目的地址来定义一条数据流。早期流分类要通过源IP、目的IP、源端口、目的端口、协议五元组才能定义一条数据流，而这个定义过程需要拆封装到传输层才可以定义。有了流标签字段以后，可以直接通过网络层的信息就可以实现流分类，这样就大大地提高了流分类的效率。</p>
+<p>（6）原生支持端到端的安全</p>
+<p>IPv6 的扩展报头中有一个认证报头、封装安全净载报头，这两个报头是 IPsec 定义的。通过这两个报头网络层自己就可以实现端到端的安全，而无需像 IPv4 协议一样需要其他协议的帮助。</p>
+<p>（7）支持移动特性</p>
+<p>IPv6 支持终端设备移动的特性，顾名思义就是在终端设备移动到另一个网络环境中也可以快速恢复通讯（这还是概念，在实验中。未正式投入使用）。比如一个主机从网络A环境中迁移到了网络B环境中，主机通过前缀重新编址得知自己的网络位置，于是乎向以前的网关路由器发送报文来通告自己的新地址。以前的网关路由器只要收到发给主机的数据就会截获并发送到主机的新地址；主机收到数据之后就会知道有人想与自己通信，就会给这个数据的源地址发送一个报文，通告自己现在的新地址。这样主机就算迁移了到了新的网络环境也可以实现流量不断的能力。</p>
+<h2 id="1-2-IPv6安全隐患"><a href="#1-2-IPv6安全隐患" class="headerlink" title="1.2 IPv6安全隐患"></a>1.2 IPv6安全隐患</h2><p>1.2.1 IPv4向IPv6过渡技术的隐患</p>
+<p>从协议本身来看，IPv6 与 IPv4 并没有太大的区别：它 是一个无连接的网络协议，使用与 IPv4 相同的下层服务， 并向上层提供相同的服务。双栈机制安全风险</p>
+<p>（1）过渡期间双栈部署的网络中同时运行着 IPv4、IPv6 两个逻辑通道，增加了设备&#x2F;系统的暴露面，也意味着防火墙、安全网关等防护设备需同时配置双栈策略，导致策略管理复杂度加倍，防护被穿透的机会加倍。IPv4 网络中，部分操作系统缺省启动了 IPv6 自动地址配置功能，使得 IPv4 网络中存在隐蔽的 IPv6 通道，由于该 IPv6 通道并没有进行防护配置，攻击者可以利用 IPv6 通道实施攻击。此外，双栈系统的复杂性也会增加网络节点的数据转发负担，导致网络节点的故障率增加。</p>
+<p>（2）隧道机制安全风险在隧道环境下，部分隧道机制仅要求隧道出入口节点对报文进行简单的封装和解封，缺乏内置认证、加密等安全功能，导致攻击者可能截取隧道报文，伪造用户地址并伪装成合法用户发起攻击。以 IPv6 Over IPv4 为例，攻击者可伪造内层、外层地址发起仿冒攻击等安全风险。此外，由于部分隧道机制未采取对隧道封装内容的检查，因此，攻击者可将 IPv4 流量承载在 IPv6 报文中，导致原来 IPv4 网络的攻击流量经由 IPv6 的“掩护”后穿越防护造成威胁。</p>
+<p>（3）翻译机制安全风险</p>
+<p>翻译机制（协议转换）是为 IPv6 网络节点与 IPv4 网络节点相互通信提供透明的路由。翻译设备作为 IPv6 与 IPv4互连节点，易成为安全瓶颈，面临地址池耗尽等常见 DDoS攻击威胁，攻击者可通过伪造大量 IPv6 地址向翻译节点发起地址转换请求，消耗地址池 IPv4 资源，同时导致合法用户无法获取 IPv4 地址，进而引发 IPv4 网络无法正常访问，导致网络瘫痪。</p>
+<p>双协议栈会带来新的安全问题，对于同时支持IPv4和IPv6的主机，黑客可以同时用两种协议进行协调攻击，发现两种协议中存在的安全弱点和漏洞，或者利用两种协议版本中安全设备的协调不足来逃避检测，而且双协议栈中一种协议的漏洞会影响另一种协议的正常工作。由于隧道机制对任何来源的数据包只进行简单的封装和解封，而不对IPv4和IPv6地址的关系做严格的检查，所以隧道机制的引入，会给网络安全带来更复杂的问题，也较多的出现安全隐患。</p>
+<p>1.2.2 IPv6中组播技术缺陷的隐患</p>
+<p>组播报文是通过UDP（用户数据报协议）进行传输的，所以它缺乏TCP（传输控制协议）所提供的可靠传输的功能。组播的开放性使通信数据缺乏机密性和完整性的安全保护，而IPv6组播所需的MLD等组播维护协议不能满足安全的需要。IP组播使用UDP，任何主机都可以向某个组播地址发送UDP包，并且低层组播机构将传送这些UDP包到所有组成员。由于在IPv6组播通信中，任何成员都可以利用MLD报文请求临近的路由加入组播群组，组播加入成员的约束机制很匮乏，无法保证通信的机密性，因此，对机密数据的窃听将非常容易。</p>
+<p>1.2.3 邻居发现协议的隐患</p>
+<p>在自动地址配置中，邻居发现协议（NDP）是基于IP的协议结构，用来完成邻居可达性检测、链路地址解析、路由及网络前缀发现、流量重定向等链路机制。报文身份的可鉴别性是NDP协议的主要安全需求，而哄骗报文攻击是其所而临的主要安全威胁。攻击者只要仿造节点不可达信息和重复地址检测，进行DoS攻击，或者传播虚假的路由响应和重定向报文，就能诱骗网络流量。</p>
+<p>1.2.4 邻居发现协议的隐患</p>
+<p>1.针对密码的攻击，对一些老版本的操作系统，有的组件不是在验证网络传输标识信息时进行信息保护，于是，窃听者可以捕获有效的用户名及其密码，掌握合法用户权限，进入机器内部破坏。</p>
+<p>2.针对密钥的攻击，IPv6下，IPSec的两种工作模式都要交换密钥，一旦攻击者破解到正确的密钥，就可以得到安全通信的访问权，监听发送者或接收者的传输数据，甚至解密或窜改数据。</p>
+<p>3.加密耗时过长引发的DoS攻击，加密需要很大的计算量，如果黑客向目标主机发送大规模看似合法事实上却是任意填充的加密数据包，目标主机将耗费大量CPU时间来检测数据包而无法回应其他用户的通信请求。</p>
+<h1 id="2-方法措施"><a href="#2-方法措施" class="headerlink" title="2 方法措施"></a>2 方法措施</h1><h2 id="2-1-应对IPv6安全隐患的措施"><a href="#2-1-应对IPv6安全隐患的措施" class="headerlink" title="2.1 应对IPv6安全隐患的措施"></a>2.1 应对IPv6安全隐患的措施</h2><p>2.1.1 加大防护技术的研究投入</p>
+<p>1.从IPv6协议的自身特点来看，容易受到分片攻击、邻居发现协议攻击、扩展头攻击等，应针对各种攻击类型的特点开展攻击原理分析、攻击检测、攻击防御、攻击解决方案研究。</p>
+<p>2.在IPv4向IPv6演进的过程中，应将过渡机制与安全问题结合起来，实现平滑、无缝、安全的过渡技术，进行新的安全体系设计。</p>
+<p>3.在新技术新应用结合方面，应开展IPv6环境下移动互联网、物联网、云计算等领域网络安全技术、管理及机制研究工作，如移动互联网下应关注IPv6的移动性安全管理，物联网中应关注IPv6在感知层应用的安全问题，云计算方面应关注基于IPv6的云计算平台安全解决方案等问题。</p>
+<p>2.1.2 加快信息安全产品研制。</p>
+<p>应对现有网络安全保障系统进行升级改造，提升对IPv6地址和网络环境的支持能力。根据《行动计划》的要求，各种安全产品应增强IPv6地址精准定位、侦查打击和快速处置能力，同时应开展针对IPv6的网络安全等级保护、个人信息保护、风险评估、通报预警、灾难备份及恢复等工作。</p>
+<h1 id="3-技术实现"><a href="#3-技术实现" class="headerlink" title="3 技术实现"></a>3 技术实现</h1><h2 id="3-1-IPv6认证"><a href="#3-1-IPv6认证" class="headerlink" title="3.1 IPv6认证"></a>3.1 IPv6认证</h2><p>3.1.1 IPv6身份认证的实现</p>
+<p>IPv6下身份认证的实现主要是通过其数据报的AH头。设计认证头部（AH）协议的目的是用来增加IP数据报的安全性。AH协议提供无连接的完整性、数据源认证和抗重放保护服务。数据完整性特征保证在传输过程中对数据报内容的修改都可以检测出来；认证特征使得终端系统或网络设备能够认证用户或应用的身份并相应地过滤通信量，它也可以防止在今天的Internet上可以观察到的地址欺骗攻击，AH还能对付重放攻击。然而，AH不提供任何保密：它不加密所保护的数据报。AH的作用是为IP数据流提供高强度的密码认证，以确保被修改过的数据报可以被检查出来。</p>
+<p>图1-2 AH报文头</p>
+<p>3.1.2 层次移动IP接入认证设计</p>
+<p>    层次移动IPv6引入移动锚点（MAP），作用如同一个本地家乡代理，它将代表其所服务的移动节点接收所有数据包，并将这些数据包封装后直接转发至移动节点的当前地址。如果移动节点在本地MAP域中更改其当前地址（即在线转交地址（LCOA）），只需在相应的MAP注册新的LCOA。因此，移动节点在对端节点或家乡代理注册本地转交地址（RCOA）后，如果移动节点在一个MAP域中移动，则LCOA不发生改变。这使移动节点的移动对于与其通信的对端节点是透明的。</p>
+<p>在无线链路情况下，层次移动IPv6可以减少通过空中接口发送到通信对端或家乡代理的消息数目。移动锚点的引入有利于移动IPv6协议减少与外部网络之间的移动信令传输。</p>
+<p>采用DHCPv6协议作为接入认证方式，在DHCPv6 Request消息中添加用户名和密码选项来传送认证信息。</p>
+<p>在层次移动IP的启动过程中，当MN收到路由通告，发现与自己的路由缓存中维护的路由前缀不一样时，发送一个信号量启动DHCPv6客户端子进程，开始接入认证过程。在DHCPv6协议中创建用户名、密码和认证失败选项，在填充选项内容时，用户名和密码通过对MN的配置文件进行读取操作，由AAA服务器预先分配给用户。</p>
+<p>在获取密码后通过标准的DES加密算法对原始密码采用双方协商好的密钥进行加密。由于DES只能对不大于8字节的字符进行加密，所以在加密过程中先计算原始密码的长度，如果小于或等于8字节则直接进行加密；如果大于8字节则截取前8个字节进行加密，再对剩余的字节进行相同的加密过程，把生成的密码拷贝到密码选项中。为了简化运算，在该文中默认密码字节不大于16字节，一般能满足实际运用。</p>
+<p>在客户端消息选项中，添加用户名和密码选项的标识，通过标识对相应的选项进行处理。当客户端在构建Request消息时，把定义好的用户名和密码标识通过系统函数添加到Request消息中，完成后发送该消息给服务器。</p>
+<p>DHCPv6服务器端收到Request消息后，通过switch语句对标识进行处理，获取选项中的用户名和密码密文字符，其中通过DES解密算法对收到的密文使用原先加密用的密钥进行解密。假如密文大于8个字节，则先对前8个字节进行解密，之后在对剩余的字节进行解密。把解密好的密码和用户名通过字符读取操作存到AAA的配置文件中。</p>
+<p>完成后在DHCPv6服务器创建子进程来启动AAA客户端程序，并且构造Reply报文，在其中创建一个消息队列来等待接收AAA客户端认证完成后返回的认证结果。如果收到认证成功标识，则从地址池中获取一个合法地址添加到该消息选项中完成后发送Reply消息。并且将MN的MAC地址和IP地址发送到包过滤器的访问控制列表（ACL）中；如果收到认证失败标识，则在构造的Reply消息中添加一个认证失败信息选项，该认证选项标识为OPTION_AUTH_FAIL。将认证失败信息添加到该选项中，并且删除准备分配给客户端的合法地址选项，完成后发送Reply消息。</p>
+<p>MN对收到的Reply报文进行判断，使用switch语句对消息中各选项进行处理。如果认证成功则含有地址选项标识，从中获取合法地址分配给接口使用，MN可以使用当地网络提供的服务或者完成切换绑定认证[5]过程。如果认证失败，不含有地址选项，而含有OPTION_AUTH_FAIL选项，MN可以获取该选项中相应的出错信息，进行再次认证或是退出该网络。</p>
+<h2 id="3-2-IPv6加密技术过程"><a href="#3-2-IPv6加密技术过程" class="headerlink" title="3.2 IPv6加密技术过程"></a>3.2 IPv6加密技术过程</h2><p>3.2.1 IPv6加密分析</p>
+<p>    ESP，也就是IPv6当中的封装安全载荷，它的出现主要是为了实现IPv6与IPv6间混合业务的安全实现。其主要的工作流程是，ESP对所有的数据以及加载进行的舍监地严格的加密.提高其传输的机密性，从而达到避免无关用户对正在进行交换的信息进行监听的现象，只有可依赖的用户通过密钥方式才能够打开相关传输内容.另外，ESP在数据的完整性方面也有一定的贡献，DES(数据加密标准）是ESP的主要标准。</p>
+<p>3.2.2 IPv6验证与加密的结合分析</p>
+<p>使用AH与ESP是对一个IP数据包进行数据机密性、真实性与完整性提供的最初概念，所说在说，在设想范围之内，两个扩展报头会在许多不同的情况之间被同时使用，就会使得IP数据包的整体规格变大。这样一来，验证功能就会在ESP的报尾得到额外的嵌入，从而对ESP的序列号和有效载荷提供一种保护。所以说，在验证与加密的问题上，协议的研制者还存在关个待解决的问题，那就是同时使用AH与ESP和单单使用ESP报头的选择性问题，特别需要强调的是ESP的报伪可以为数据提供个验证功能。但是，无论是哪一种选择，在传输与隧道模式当中，进行数据传输之时，与AH与ESP的组合使用并无关系，esp头如图1-4所示。</p>
+<p> </p>
+<h1 id="4-结论与展望"><a href="#4-结论与展望" class="headerlink" title="4.结论与展望"></a>4.结论与展望</h1><p>为了满足广域网络的灵活组网、按需服务、差异化保障、网络可视化等需求，出现了以 SRv6（网络基础隧道）、VPN+&#x2F;Slicing（网络分片）、Detnet（确定性网络技术）、iFIT（随路流检测技术）、BIER6、APN6（应用感知网络）等协议为代表的IPv6+ 技术体系。这个技术体系实现网络统一部署、灵活编程、任意扩展，并支持网络可视、应用感知、弹性分片等能力，将成为下一代互联网部署的核心技术。</p>
+<p>IPv6 不是下一代互联网的全部，而是下一代互联网创新的起点和平台。随着 IPv6 的规模部署，以 SRv6 为代表的 IPv6+ 技术将在网络中广泛应用，形成像 MPLS 一样的一个时代，构建出自动化、可承诺的下一代网络，推动云业务的迅速发展的同时，助力企业数字化转型加速。</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Fan</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://starrycsf.github.io/2023/08/05/34138/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://starrycsf.github.io/2023/08/05/34138/')">IPV6安全</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://starrycsf.github.io/2023/08/05/34138/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=IPV6安全&amp;url=https://starrycsf.github.io/2023/08/05/34138/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://starrycsf.github.io" target="_blank">StarryCSF</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"></div></div></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/03/7215/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">复活吧！我的Blog</div></div></a></div><div class="next-post pull-right"><a href="/2023/08/05/45890/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">人工智能</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">折若木以拂日兮,聊逍遥以相羊</div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(/img/dream.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-IPv6%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3"><span class="toc-number">1.</span> <span class="toc-text">1 IPv6安全隐患</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-IPv6%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 IPv6安全技术简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-IPv6%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 IPv6安全隐患</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%96%B9%E6%B3%95%E6%8E%AA%E6%96%BD"><span class="toc-number">2.</span> <span class="toc-text">2 方法措施</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%BA%94%E5%AF%B9IPv6%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3%E7%9A%84%E6%8E%AA%E6%96%BD"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 应对IPv6安全隐患的措施</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">3 技术实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-IPv6%E8%AE%A4%E8%AF%81"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 IPv6认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-IPv6%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF%E8%BF%87%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 IPv6加密技术过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E7%BB%93%E8%AE%BA%E4%B8%8E%E5%B1%95%E6%9C%9B"><span class="toc-number">4.</span> <span class="toc-text">4.结论与展望</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/04/25013/" title="LLVM">LLVM</a><time datetime="2025-02-04T04:05:18.000Z" title="发表于 2025-02-04 12:05:18">2025-02-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/01/25012/" title="GDB">GDB</a><time datetime="2025-02-01T07:52:29.000Z" title="发表于 2025-02-01 15:52:29">2025-02-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/26/25011/" title="Vim-Backup">Vim-Backup</a><time datetime="2025-01-25T17:53:02.000Z" title="发表于 2025-01-26 01:53:02">2025-01-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/17/25010/" title="C++_STL">C++_STL</a><time datetime="2025-01-17T01:18:06.000Z" title="发表于 2025-01-17 09:18:06">2025-01-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/05/61041/" title="大数据复习">大数据复习</a><time datetime="2023-08-05T03:05:09.000Z" title="发表于 2023-08-05 11:05:09">2023-08-05</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="Fan" target="_blank">Fan</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">5</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.7.0",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Fan 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
