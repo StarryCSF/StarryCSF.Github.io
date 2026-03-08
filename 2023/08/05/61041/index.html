@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>大数据复习 | StarryCSF</title><meta name="author" content="Fan"><meta name="copyright" content="Fan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="大数据复习"><meta name="application-name" content="大数据复习"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="大数据复习"><meta property="og:url" content="https://starrycsf.github.io/2023/08/05/61041/index.html"><meta property="og:site_name" content="StarryCSF"><meta property="og:description" content="简答题: 1.Hadoop安装步骤。 2.列举大数据在各个领域的应用。 金融：大数据可以用于风险评估、欺诈检测、客户推荐等。医疗：大数据可以用于疾病预测、药物开发、健康监测等。零售：大数据可以用于销售预测、客户购买行为分析、价格优化等。制造业：大数据可以用于生产过程监测、质量控制、资源优化等。教育："><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://starrycsf.github.io/img/avatar.png"><meta property="article:author" content="Fan"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://starrycsf.github.io/img/avatar.png"><meta name="description" content="简答题: 1.Hadoop安装步骤。 2.列举大数据在各个领域的应用。 金融：大数据可以用于风险评估、欺诈检测、客户推荐等。医疗：大数据可以用于疾病预测、药物开发、健康监测等。零售：大数据可以用于销售预测、客户购买行为分析、价格优化等。制造业：大数据可以用于生产过程监测、质量控制、资源优化等。教育："><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://starrycsf.github.io/2023/08/05/61041/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w","backTitle":"♪(^∇^*)"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: undefined,
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Fan","link":"链接: ","source":"来源: StarryCSF","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'StarryCSF',
+  title: '大数据复习',
+  postAI: '',
+  pageFillDescription: '第2部分 多选题简答题安装步骤列举大数据在各个领域的应用金融大数据可以用于风险评估欺诈检测客户推荐等医疗大数据可以用于疾病预测药物开发健康监测等零售大数据可以用于销售预测客户购买行为分析价格优化等制造业大数据可以用于生产过程监测质量控制资源优化等教育大数据可以用于学习分析教学内容优化学习成绩预测等体系结构的与其他组件的关系是一个大数据处理框架它包含若干个组件其中是一个开源的分布式数据库主要用于存储和管理海量的结构化和非结构化的数据是体系结构的一个组件主要用于存储和管理海量的结构化和非结构化的数据它可以通过来存储数据并使用来进行数据处理与传统数据库的区别架构不同采用分布式架构可以横向扩展而传统数据库通常采用单机或主从架构难以横向扩展存储类型不同采用列存储模型可以存储海量的结构化和非结构化的数据而传统数据库通常采用行存储模型只能存储结构化的数据数据模型不同采用键值对的数据模型支持快速随机访问而传统数据库通常采用关系型数据模型支持关系型查询查询能力不同支持快速随机访问和批量读写但不支持关系型查询而传统数据库支持关系型查询但不支持快速随机访问和批量读写可用性不同支持数据的高可用性即使某个节点出现故障也不会影响整体的可用性而传统数据库不支持简述云计算大数据物联网三者关系云计算可以为大数据的处理和分析提供强大的计算能力和存储空间同时也可以通过云端的服务来提供大数据分析工具云计算可以为物联网提供远程访问和管理的能力同时也可以为物联网设备提供云端的存储和计算资源与关系型数据库的区别数据模型不同数据库采用非关系型的数据模型如文档型键值型图型等而关系型数据库采用关系型的数据模型数据存储方式不同数据库通常采用列存储或文档型存储而关系型数据库通常采用行存储数据一致性不同数据库通常不支持事务和多版本并发控制因此数据一致性较弱而关系型数据库支持事务和多版本并发控制因此数据一致性较强查询能力不同数据库通常不支持关系型查询而关系型数据库支持关系型查询可扩展性不同通常采用分布式架构可以横向扩展而关系型数据库通常采用单机或主从架构难以横向扩展与的区别及的优点区别架构不同是一种流式数据处理技术是一种分布式流式计算框架是的一个模块功能不同仅支持流式数据处理支持流式数据处理和分析既支持流式数据处理也支持批处理性能不同的处理速度较快但有时会出现数据丢失的情况的处理速度略慢但更稳定不会出现数据丢失的情况优点高吞吐量可以处理每秒钟数千至数百万条的数据流具有高吞吐量的优势容错性强支持数据的容错和恢复可以保证数据的可靠性易于开发和部署提供了丰富的和开发工具易于开发和部署可扩展性好支持分布式计算可以通过增加节点来扩展系统的处理能力可以与多种数据源集成可以与等多种数据源集成方便对数据流进行处理与的含义和作用是的主节点负责管理文件系统的命名空间和实际的文件块的映射关系它负责维护文件系统的元数据信息包括文件名文件所属目录文件块分布情况等还负责调度文件的读写操作并记录文件的访问日志是的工作节点负责存储实际的文件块数据每个都有自己的存储空间负责存储和维护文件块当用户的读写请求到达时会调度相应的处理请求简述四大体系结构以及每个结构的作用负责调度作业的执行监控作业的进度和状态并在必要时重新调度作业负责执行由调度的任务并向汇报任务的执行进度和状态负责将输入数据分片并提供给函数处理负责将函数处理后的结果合并输出数据库的种类和特点键值存储数据库采用键值对的数据模型适用于存储简单的数据文档数据库采用文档的数据模型适用于存储结构化和非结构化的数据列存储数据库适用于海量数据的快速随机访问图结构存储用于社交网络面向对象数据库这类数据库以对象的形式存储数据适用于面向对象编程的应用场景数据库具有高可扩展性高可用性高性能等特点运行架构的特点分布式内存计算可以将数据加载到内存中进行处理具有较高的计算效率支持多种编程语言支持等多种编程语言方便开发人员使用支持流式计算和批处理支持流式计算和批处理两种模式能够满足不同的数据处理需求支持多种存储系统可以与多种存储系统集成可扩展性强支持分布式计算可以通过增加节点来扩展计算能力支持容错支持数据的容错和恢复可以保证数据的可靠性应用题作业词频统计实验对词频统计的过程画出查询并转换成作业的过程架构的设计思路三个组件功能单选题分下列说法正确的是可用性不好第二名称节点无法解决单点故障问题第二名称节点是热备份提供高可用性可以实现可扩展性系统性能和隔离性参考答案单选题分设计不能解决单名称节点存在的哪个问题单点故障问题良好的隔离性性能更高效集群扩展性参考答案单选题分下列关于工作流程哪个描述是正确的所有的数据交换都是通过框架自身去实现的不同的任务之间会进行通信不同的任务之间可以发生信息交换用户可以显式地从一台机器向另一台机器发送消息参考答案单选题分下列说法错误的是是的开源实现后者比前者使用门槛低很多采用非共享式架构容错性好主要用于批处理实时计算密集型应用采用分而治之策略参考答案单选题分第页共页大数据原理与应用导出时间执行启动指令后使用哪个命令可以判断是否启动成功参考答案单选题分关于文档数据库的说法下列哪一项是错误的数据时规则的性能好高并发缺乏统一的查询语法复杂性低参考答案单选题分下列哪个不属于体系结构中的功能处理客户端请求监控资源分配与调度处理来自的命令参考答案单选题分在项目结构中指的是分布式文件系统分布式并行编程模型资源管理和调度器上的数据仓库参考答案单选题分在中关于数据操作的描述下列哪一项是错误的采用了更加简单的数据模型它把数据存储为未经解释的字符串操作不存在复杂的表与表之间的关系不支持修改操作在设计上就避免了复杂的表和表之间的关系参考答案单选题分在中启动的指令为参考答案单选题分下列关于和函数的描述哪个是错误的将小数据集进一步解析成一批对输入函数中进行处理每一个输入的会输出一批是计算的中间结果输入的中间结果中的表示是一批属于不同的输入的中间结果中的表示是一批属于同一个的参考答案单选题分的体系结构中是主要任务是什么负责资源监控和作业调度监控所有与的健康状况使用等量划分本节点上的资源量内存等会周期性地通过心跳将本节点上资源的使用情况和任务的运行进度汇报给会跟踪任务的执行进度资源使用量等信息并将这些信息告诉任务参考答案单选题分列关于的说法哪个描述是错误的具有广泛的应用比如关系代数运算分组与聚合运算等将复杂的运行于大规模集群上的并行计算过程高度地抽象到了两个函数编程人员在不会分布式并行编程的情况下也可以很容易将自己的程序运行在分布式系统上完成海量数据集的计算不同的任务之间可以进行通信参考答案单选题分下列传统并行计算框架说法错误的是哪一项刀片服务器高速网价格贵扩展性差上共享式共享内存共享存储容错性好编程难度高实时细粒度计算计算密集型参考答案单选题分下列关于的描述错误的是爬虫持续不断地抓取新页面这些页面每隔一段时间地存储到里是一个分布式存储系统起初用于解决典型的互联网搜索问题网络搜索应用查询建立好的索引从得到网页参考答案单选题分下列关于模型的描述错误的是哪一项采用分而治之策略设计的一个理念就是计算向数据靠拢框架采用了架构应用程序只能用来写参考答案单选题分下面哪一项不是体系结构主要部分以及参考答案单选题分在项目结构中指的是什么分布式并行编程模型流计算框架上的工作流管理系统提供分布式协调一致性服务参考答案单选题分中修改某文件权限的指令为参考答案单选题分在中新建一个目录的指令为参考答案第部分多选题多选题分下列哪些是存在的问题执行迭代操作效率低抽象层次低开发者自己管理作业之间的依赖关系表达能力有限参考答案多选题分对新一代资源管理调度框架的理解正确的是既是资源管理调度框架也是一个计算框架可以实现一个集群多个框架即在一个集群上部署一个统一的资源调度管理框架的体系结构包含三个组件是运行在之上的计算框架由来为提供资源管理调度服务参考答案多选题分下列对各组件的理解正确的是分布式发布订阅消息系统支持作业的计算框架处理大规模数据的脚本语言工作流和协作服务引擎参考答案多选题分对于而言其处理单位是是一个逻辑概念它包含哪些元数据信息数据起始位置数据长度数据所在节点数据大小参考答案多选题分下列关于的体系结构的描述说法正确的有用户编写的程序通过提交到端负责资源监控和作业调度监控所有与的健康状况使用等量划分本节点上的资源量内存等参考答案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-03-07 00:06:35',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.1"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">StarryCSF</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/01/"><span class="card-archive-list-date">一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/09/"><span class="card-archive-list-date">九月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">八月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/07/"><span class="card-archive-list-date">七月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/01/"><span class="card-archive-list-date">一月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%A4%A7%E5%AD%A6/" itemprop="url">大学</a></span><span class="article-meta tags"></span></div></div><h1 class="post-title" itemprop="name headline">大数据复习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-08-05T03:05:09.000Z" title="发表于 2023-08-05 11:05:09">2023-08-05</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-03-06T16:06:35.236Z" title="更新于 2026-03-07 00:06:35">2026-03-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为长沙"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>长沙</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://starrycsf.github.io/2023/08/05/61041/"><header><a class="post-meta-categories" href="/categories/%E5%A4%A7%E5%AD%A6/" itemprop="url">大学</a><h1 id="CrawlerTitle" itemprop="name headline">大数据复习</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Fan</span><time itemprop="dateCreated datePublished" datetime="2023-08-05T03:05:09.000Z" title="发表于 2023-08-05 11:05:09">2023-08-05</time><time itemprop="dateCreated datePublished" datetime="2026-03-06T16:06:35.236Z" title="更新于 2026-03-07 00:06:35">2026-03-07</time></header><p>简答题:</p>
+<p>1.Hadoop安装步骤。</p>
+<p>2.列举大数据在各个领域的应用。</p>
+<p>金融：大数据可以用于风险评估、欺诈检测、客户推荐等。医疗：大数据可以用于疾病预测、药物开发、健康监测等。零售：大数据可以用于销售预测、客户购买行为分析、价格优化等。制造业：大数据可以用于生产过程监测、质量控制、资源优化等。教育：大数据可以用于学习分析、教学内容优化、学习成绩预测等。</p>
+<p>3.Hadoop体系结构的Hbase与其他组件的关系。</p>
+<p>Hadoop是一个大数据处理框架，它包含若干个组件，其中HBase是一个开源的分布式数据库，主要用于存储和管理海量的结构化和非结构化的数据。HBase是Hadoop体系结构的一个组件，主要用于存储和管理海量的结构化和非结构化的数据。它可以通过HDFS来存储数据，并使用Hadoop MapReduce来进行数据处理。</p>
+<p>4.Hbase与传统数据库的区别。</p>
+<p>架构不同：HBase采用分布式架构，可以横向扩展，而传统数据库通常采用单机或主从架构，难以横向扩展。存储类型不同：HBase采用列存储模型，可以存储海量的结构化和非结构化的数据，而传统数据库通常采用行存储模型，只能存储结构化的数据。数据模型不同：HBase采用键值对的数据模型，支持快速随机访问，而传统数据库通常采用关系型数据模型，支持关系型查询。查询能力不同：HBase支持快速随机访问和批量读写，但不支持关系型查询，而传统数据库支持关系型查询，但不支持快速随机访问和批量读写。可用性不同：HBase支持数据的高可用性，即使某个节点出现故障也不会影响整体的可用性，而传统数据库不支持</p>
+<p>5.简述云计算，大数据，物联网三者关系。</p>
+<p>云计算可以为大数据的处理和分析提供强大的计算能力和存储空间，同时也可以通过云端的服务来提供大数据分析工具；云计算可以为物联网提供远程访问和管理的能力，同时也可以为物联网设备提供云端的存储和计算资源。</p>
+<p>6.NoSQL与关系型数据库的区别。</p>
+<p>数据模型不同：NoSQL数据库采用非关系型的数据模型，如文档型、键值型、图型等，而关系型数据库采用关系型的数据模型。数据存储方式不同：NoSQL数据库通常采用列存储或文档型存储，而关系型数据库通常采用行存储。数据一致性不同：NoSQL数据库通常不支持事务和多版本并发控制，因此数据一致性较弱，而关系型数据库支持事务和多版本并发控制，因此数据一致性较强。查询能力不同：NoSQL数据库通常不支持关系型查询，而关系型数据库支持关系型查询。可扩展性不同：NoSQL通常采用分布式架构，可以横向扩展，而关系型数据库通常采用单机或主从架构，难以横向扩展。</p>
+<p>7.Streaming与Storm的区别及Spark Streaming的优点。</p>
+<p>区别：架构不同：Streaming是一种流式数据处理技术，Storm是一种分布式流式计算框架，Spark Streaming是Apache Spark的一个模块。功能不同：Streaming仅支持流式数据处理，Storm支持流式数据处理和分析，Spark Streaming既支持流式数据处理，也支持批处理。性能不同：Storm的处理速度较快，但有时会出现数据丢失的情况，Spark Streaming的处理速度略慢，但更稳定，不会出现数据丢失的情况。优点：高吞吐量：Spark Streaming可以处理每秒钟数千至数百万条的数据流，具有高吞吐量的优势。容错性强：Spark Streaming支持数据的容错和恢复，可以保证数据的可靠性。易于开发和部署：Spark Streaming提供了丰富的API和开发工具，易于开发和部署。可扩展性好：Spark Streaming支持分布式计算，可以通过增加节点来扩展系统的处理能力。可以与多种数据源集成：Spark Streaming可以与Kafka、Flume、Twitter、Socket等多种数据源集成，方便对数据流进行处理。</p>
+<p>8.NameNode与DataNode的含义和作用。</p>
+<p>NameNode是HDFS的主节点，负责管理文件系统的命名空间和实际的文件块的映射关系。它负责维护文件系统的元数据信息，包括文件名、文件所属目录、文件块分布情况等。NameNode还负责调度文件的读写操作，并记录文件的访问日志。DataNode是HDFS的工作节点，负责存储实际的文件块数据。每个DataNode都有自己的存储空间，负责存储和维护文件块。当用户的读写请求到达NameNode时，NameNode会调度相应的DataNode处理请求。</p>
+<p>9.简述MapReduce四大体系结构以及每个结构的作用。</p>
+<p>JobTracker：负责调度MapReduce作业的执行，监控作业的进度和状态，并在必要时重新调度作业。TaskTracker：负责执行由JobTracker调度的MapReduce任务，并向JobTracker汇报任务的执行进度和状态。InputFormat：负责将输入数据分片，并提供给Map函数处理。OutputFormat：负责将Map函数处理后的结果合并输出。</p>
+<p>10.NOSQL数据库的种类和特点。</p>
+<p>键值存储数据库：采用键值对的数据模型，适用于存储简单的数据。文档数据库：采用文档的数据模型，适用于存储结构化和非结构化的数据。列存储数据库：适用于海量数据的快速随机访问。图结构存储：用于社交网络。面向对象数据库：这类数据库以对象的形式存储数据，适用于面向对象编程的应用场景。NOSQL数据库具有高可扩展性、高可用性、高性能等特点</p>
+<p>11.       Spark运行架构的特点</p>
+<p>分布式内存计算：Spark可以将数据加载到内存中进行处理，具有较高的计算效率。支持多种编程语言：Spark支持Java、Scala、Python等多种编程语言，方便开发人员使用。支持流式计算和批处理：Spark支持流式计算和批处理两种模式，能够满足不同的数据处理需求。支持多种存储系统：Spark可以与多种存储系统集成。可扩展性强：Spark支持分布式计算，可以通过增加节点来扩展计算能力。支持容错：Spark支持数据的容错和恢复，可以保证数据的可靠性。</p>
+<p>应用题:</p>
+<p>1.作业:词频统计实验</p>
+<p>MapReduce对词频统计的过程</p>
+<p>画出SQL查询并转换成作业的过程</p>
+<p>2.YARN架构的设计思路，三个组件功能</p>
+<ol>
+<li><p>【单选题】 (5分)<br>下列说法正确的是<br>A. HDFS HA可用性不好<br>B. 第二名称节点无法解决单点故障问题<br>C. 第二名称节点是热备份<br>D. HDFS HA提供高可用性，可以实现可扩展性、系统性能和隔离性<br>参考答案 D</p>
+</li>
+<li><p>【单选题】 (5分)<br>HDFS Federation设计不能解决“单名称节点”存在的哪个问题:<br>A. 单点故障问题<br>B. 良好的隔离性<br>C. 性能更高效<br>D. HDFS集群扩展性<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>下列关于MapReduce工作流程，哪个描述是正确的？<br>A. 所有的数据交换都是通过MapReduce框架自身去实现的<br>B. 不同的Map任务之间会进行通信<br>C. 不同的Reduce任务之间可以发生信息交换<br>D. 用户可以显式地从一台机器向另一台机器发送消息<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>下列说法错误的是<br>A. Hadoop MapReduce是MapReduce的开源实现，后者比前者使用门槛低很多<br>B. MapReduce采用非共享式架构，容错性好<br>C. MapReduce主要用于批处理、实时、计算密集型应用<br>D. MapReduce采用“ 分而治之”策略<br>参考答案 C</p>
+</li>
+<li><p>【单选题】 (5分)<br>第 1 页 共 5 页<br>大数据原理与应用 导出时间:2022&#x2F;12&#x2F;21<br>执行启动Hadoop指令后，使用哪个命令可以判断Hadoop是否启动成功<br>A. jps<br>B. put<br>C. abc<br>D. gpa<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>关于文档数据库的说法，下列哪一项是错误的<br>A. 数据时规则的<br>B. 性能好（高并发）<br>C. 缺乏统一的查询语法<br>D. 复杂性低<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>下列哪个不属于YARN体系结构中ResourceManager的功能<br>A. 处理客户端请求<br>B. 监控NodeManager<br>C. 资源分配与调度<br>D. 处理来自Application Master的命令<br>参考答案 D</p>
+</li>
+<li><p>【单选题】 (5分)<br>在Hadoop项目结构中，HDFS指的是（ ）<br>A. 分布式文件系统<br>B. 分布式并行编程模型<br>C. 资源管理和调度器<br>D. Hadoop上的数据仓库<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>在HBase中，关于数据操作的描述，下列哪一项是错误的？<br>A. HBase采用了更加简单的数据模型，它把数据存储为未经解释的字符串<br>B. HBase操作不存在复杂的表与表之间的关系<br>C. HBase不支持修改操作<br>D. HBase在设计上就避免了复杂的表和表之间的关系<br>参考答案 C</p>
+</li>
+<li><p>【单选题】 (5分)<br>在Linux中启动Hbase的指令为<br>A. start-hbase.site<br>B. start-hbase.df<br>C. start-hbase.sh<br>D. start-hbase.html<br>参考答案 C</p>
+</li>
+<li><p>【单选题】 (5分)<br>下列关于Map和Reduce函数的描述，哪个是错误的<br>A. Map将小数据集进一步解析成一批对，输入Map函数中进行处理<br>B. Map每一个输入的会输出一批。是计算的中间结果<br>C. Reduce输入的中间结果中的List(v 2 )表示是一批属于不同k 2 的value<br>D. Reduce输入的中间结果中的List(v 2 )表示是一批属于同一个k 2 的value<br>参考答案 C</p>
+</li>
+<li><p>【单选题】 (5分)<br>MapReduce1.0的体系结构中，JobTracker是主要任务是什么？<br>A. 负责资源监控和作业调度，监控所有TaskTracker与Job的健康状况<br>B. 使用“slot”等量划分本节点上的资源量（CPU、内存等）<br>C. 会周期性地通过“心跳”将本节点上资源的使用情况和任务的运行进度汇报给TaskTracker<br>D. 会跟踪任务的执行进度、资源使用量等信息，并将这些信息告诉任务（Task）<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>列关于MapReduce的说法，哪个描述是错误的<br>A. MapReduce具有广泛的应用，比如关系代数运算、分组与聚合运算等<br>B. MapReduce将复杂的、运行于大规模集群上的并行计算过程高度地抽象到了两个函数<br>C. 编程人员在不会分布式并行编程的情况下，也可以很容易将自己的程序运行在分布式系统上，完成海量数据集<br>的计算<br>D. 不同的Map任务之间可以进行通信<br>参考答案 D</p>
+</li>
+<li><p>【单选题】 (5分)<br>下列传统并行计算框架，说法错误的是哪一项？<br>A. 刀片服务器、高速网、SAN，价格贵，扩展性差上<br>B. 共享式(共享内存&#x2F;共享存储)，容错性好<br>C. 编程难度高<br>D. 实时、细粒度计算、计算密集型<br>参考答案 B</p>
+</li>
+<li><p>【单选题】 (5分)<br>下列关于BigTable的描述，错误的是（）<br>A. 爬虫持续不断地抓取新页面，这些页面每隔一段时间地存储到BigTable里<br>B. BigTable是一个分布式存储系统<br>C. BigTable起初用于解决典型的互联网搜索问题<br>D. 网络搜索应用查询建立好的索引，从BigTable得到网页<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>下列关于MapReduce模型的描述，错误的是哪一项？<br>A. MapReduce采用“ 分而治之”策略<br>B. MapReduce设计的一个理念就是“ 计算向数据靠拢”<br>C. MapReduce框架采用了Master&#x2F;Slave架构<br>D. MapReduce应用程序只能用Java来写<br>参考答案 D</p>
+</li>
+<li><p>【单选题】 (5分)<br>下面哪一项不是MapReduce体系结构主要部分？<br>A. Client<br>B. JobTracker<br>C. TaskTracker以及Task<br>D. Job<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>在Hadoop项目结构中，MapReduce指的是什么<br>A. 分布式并行编程模型<br>B. 流计算框架<br>C. Hadoop上的工作流管理系统<br>D. 提供分布式协调一致性服务<br>参考答案 A</p>
+</li>
+<li><p>【单选题】 (5分)<br>Linux中，修改某文件权限的指令为<br>A. delete<br>B. chance<br>C. change<br>D. chmond<br>参考答案 D</p>
+</li>
+<li><p>【单选题】 (5分)<br>在Hadoop中新建一个目录的指令为<br>A. create<br>B. open<br>C. mkdir<br>D. newfile<br>参考答案 C</p>
+<h2 id="第2部分-多选题"><a href="#第2部分-多选题" class="headerlink" title="第2部分 多选题"></a>第2部分 多选题</h2></li>
+<li><p>【多选题】 (10分)<br>下列哪些是Hadoop1.0存在的问题：<br>A. 执行迭代操作效率低<br>B. 抽象层次低<br>C. 开发者自己管理作业之间的依赖关系<br>D. 表达能力有限<br>参考答案 A,B,C,D</p>
+</li>
+<li><p>【多选题】 (10分)<br>对新一代资源管理调度框架YARN的理解正确的是:<br>A. YARN既是资源管理调度框架，也是一个计算框架<br>B. YARN可以实现“一个集群多个框架”，即在一个集群上部署一个统一的资源调度管理框架<br>C. YARN的体系结构包含三个组件：ResourceManager，NodeManager，ApplicationMaster<br>D. MapReduce2.0是运行在YARN之上的计算框架，由YARN来为MapReduce提供资源管理调度服务<br>参考答案 B,C,D</p>
+</li>
+<li><p>【多选题】 (10分)<br>:下列对Hadoop各组件的理解正确的是<br>A. Kafka：分布式发布订阅消息系统<br>B. Tez：支持DAG作业的计算框架<br>C. Pig：处理大规模数据的脚本语言<br>D. Oozie:工作流和协作服务引擎<br>参考答案 A,B,C,D</p>
+</li>
+<li><p>【多选题】 (10分)<br>对于MapReduce 而言，其处理单位是split。split 是一个逻辑概念，它包含哪些元数据信息<br>A. 数据起始位置<br>B. 数据长度<br>C. 数据所在节点<br>D. 数据大小<br>参考答案 A,B</p>
+</li>
+<li><p>【多选题】 (10分)<br>下列关于MapReduce的体系结构的描述，说法正确的有<br>A. 用户编写的MapReduce程序通过Client提交到JobTracker端<br>B. JobTracker负责资源监控和作业调度<br>C. TaskTracker监控所有TaskTracker与Job的健康状况<br>D. TaskTracker 使用“slot”等量划分本节点上的资源量（CPU、内存等)<br>参考答案 A,B</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Fan</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://starrycsf.github.io/2023/08/05/61041/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://starrycsf.github.io/2023/08/05/61041/')">大数据复习</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://starrycsf.github.io/2023/08/05/61041/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=大数据复习&amp;url=https://starrycsf.github.io/2023/08/05/61041/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://starrycsf.github.io" target="_blank">StarryCSF</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"></div></div></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/05/45890/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">人工智能</div></div></a></div><div class="next-post pull-right"><a href="/2025/01/17/25010/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">C++_STL</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">折若木以拂日兮,聊逍遥以相羊</div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://sparkspace.com/wp-content/uploads/2013/07/bigstock-What-s-Your-Dream-40519873.jpg) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC2%E9%83%A8%E5%88%86-%E5%A4%9A%E9%80%89%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">第2部分 多选题</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/04/25013/" title="LLVM">LLVM</a><time datetime="2025-02-04T04:05:18.000Z" title="发表于 2025-02-04 12:05:18">2025-02-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/01/25012/" title="GDB">GDB</a><time datetime="2025-02-01T07:52:29.000Z" title="发表于 2025-02-01 15:52:29">2025-02-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/26/25011/" title="Vim-Backup">Vim-Backup</a><time datetime="2025-01-25T17:53:02.000Z" title="发表于 2025-01-26 01:53:02">2025-01-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/17/25010/" title="C++_STL">C++_STL</a><time datetime="2025-01-17T01:18:06.000Z" title="发表于 2025-01-17 09:18:06">2025-01-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/05/61041/" title="大数据复习">大数据复习</a><time datetime="2023-08-05T03:05:09.000Z" title="发表于 2023-08-05 11:05:09">2023-08-05</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="Fan" target="_blank">Fan</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">5</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.7.0",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Fan 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
