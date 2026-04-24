@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>LLVM指令选择 | StarryCSF</title><meta name="author" content="Fan"><meta name="copyright" content="Fan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="LLVM指令选择"><meta name="application-name" content="LLVM指令选择"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="LLVM指令选择"><meta property="og:url" content="https://starrycsf.github.io/2025/11/05/20260424-1/index.html"><meta property="og:site_name" content="StarryCSF"><meta property="og:description" content="继续上一篇，后端部分：作用：负责将 LLVM IR 转换成目标代码，主要过程有指令选择，寄存器分配，指令调度。前置知识：SelectionDAG 节点：在编译优化阶段生成的一种抽象的数据结构，用以表示程序的计算过程，帮助优化器进行高效的指令选择和调度。Machinelnstr：机器相关的指令格式，用"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://starrycsf.github.io/img/avatar.png"><meta property="article:author" content="Fan"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://starrycsf.github.io/img/avatar.png"><meta name="description" content="继续上一篇，后端部分：作用：负责将 LLVM IR 转换成目标代码，主要过程有指令选择，寄存器分配，指令调度。前置知识：SelectionDAG 节点：在编译优化阶段生成的一种抽象的数据结构，用以表示程序的计算过程，帮助优化器进行高效的指令选择和调度。Machinelnstr：机器相关的指令格式，用"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://starrycsf.github.io/2025/11/05/20260424-1/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: undefined,
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w","backTitle":"♪(^∇^*)"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: undefined,
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Fan","link":"链接: ","source":"来源: StarryCSF","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'StarryCSF',
+  title: 'LLVM指令选择',
+  postAI: '',
+  pageFillDescription: '继续上一篇后端部分作用负责将转换成目标代码主要过程有指令选择寄存器分配指令调度前置知识节点在编译优化阶段生成的一种抽象的数据结构用以表示程序的计算过程帮助优化器进行高效的指令选择和调度机器相关的指令格式用于描述特定目标架构下的指令集和操作码机器指令是具体的目标代码表示包含了特定架构下的二进制编码指令定义一个指令已知此处是指令模型调度相关可以尝试对指令和非指令调整需要考虑指令依赖和寄存器压力在这里为一个我们只需要填入和即可定义一个具体的定义以为例首先可以先添加一个指令模板用来批量添加结构相同指令标记计算的表达式是否有副作用详细可查看标记是否会读取内存标记是否会修改内存继承于继承于需要注意的是这里给出了而其他范围已经规定好为已经有的行过每一个含有一个和的对应白皮书图片为一般是返回值的寄存器这个一般是三个表示输入寄存器与空间表示第二个输入不过有时并不固定例如图片就需要利用的在下是的空间在下是位空间写一个对应的模板类待完成查看的的用途为是框架中的一个关键数据结构主要用于指令选择阶段待完成生成指令信息表会在编译期间进去分别代表指令信息表待完成对的类型检查图的组成使用类表示一个架构无关的底层数据依赖图它将串联整个指令选择流程所以包含了许多成员与接口这里我们只截取与相关的部分其中负责处理架构相关的负责处理函数调用约定这两个成员后面会介绍与分别指向图的入口节点与根节点通过根节点即可遍历整个图的目的是将的数据结构转换为方便之后指令选择做模式匹配的过程就是建立的过程待讲解指令选择作用转换为目标特定的节点生成目标机器代码的指令序列有和两种框架目前都是是核心类主要动作指令选择寄存器分配指令调度例如定义了一个并加入限制注意是返回原型才是要匹配的输入再到再到指令指令选择第一阶段是以作为输入创建有向无环图目前有问题的指令思路能正常生成并且的和能正常生成的位不可以之前出了问题可能是格式问题猜测是的返回类型合法化问题结论白皮书发生变动定义修改按照版本来报错为按照同类型解决其他有的检查过程检查模式匹配指令是否正确打印查看调试手段前端未定义查看对应文件对照白皮书打断点查看参数打印出结果以为例参考的过程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2026-04-24 18:01:14',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 8.1.1"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">StarryCSF</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="anzhiyufont anzhiyu-icon-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/03/"><span class="card-archive-list-date">三月 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">十一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">十月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/01/"><span class="card-archive-list-date">一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/09/"><span class="card-archive-list-date">九月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">八月 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"></span></div></div><h1 class="post-title" itemprop="name headline">LLVM指令选择</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2025-11-05T09:50:43.000Z" title="发表于 2025-11-05 17:50:43">2025-11-05</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-04-24T10:01:14.039Z" title="更新于 2026-04-24 18:01:14">2026-04-24</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">3.3k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="LLVM指令选择"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为青岛"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>青岛</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://starrycsf.github.io/2025/11/05/20260424-1/"><header><h1 id="CrawlerTitle" itemprop="name headline">LLVM指令选择</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Fan</span><time itemprop="dateCreated datePublished" datetime="2025-11-05T09:50:43.000Z" title="发表于 2025-11-05 17:50:43">2025-11-05</time><time itemprop="dateCreated datePublished" datetime="2026-04-24T10:01:14.039Z" title="更新于 2026-04-24 18:01:14">2026-04-24</time></header><p>继续上一篇，后端部分：<br>作用：负责将 LLVM IR 转换成目标代码，主要过程有指令选择，寄存器分配，指令调度。<br>前置知识：<br>SelectionDAG 节点：在编译优化阶段生成的一种抽象的数据结构，用以表示程序的计算过程，帮助优化器进行高效的指令选择和调度。<br>Machinelnstr：机器相关的指令格式，用于描述特定目标架构下的指令集和操作码。<br>MCInst：机器指令，是具体的目标代码表示，包含了特定架构下的二进制编码指令。<br>定义一个指令<br>已知<br>let Predicates &#x3D; [HasExtZpn095b] in {<br>def SRL8     : RVPBinary&lt;0b0101101, 0b000, “srl8”&gt;,<br>               Sched&lt;[WritePShift8, ReadPShift8, ReadPShift8]&gt;;<br>}<br>此处Sched是指令模型调度相关，可以尝试对P指令和非P指令调整Latency，需要考虑指令依赖和寄存器压力。在这里RVPBinary为一个Instruction class templates<br>let hasSideEffects &#x3D; 0, mayLoad &#x3D; 0, mayStore &#x3D; 0,<br>    DecoderNamespace &#x3D; “RISCVP095_” in<br>class RVPBinary&lt;bits&lt;7&gt; funct7, bits&lt;3&gt; funct3, string opcodestr&gt;<br>    : RVInstR&lt;funct7, funct3, OPC_OP_VE,<br>              (outs GPRP:$rd), (ins GPRP:$rs1, GPRP:$rs2),<br>              opcodestr, “$rd, $rs1, $rs2”&gt;;<br>我们只需要填入func7,func3,和opcodestr即可定义一个具体的Instruction。<br>定义intrinsic<br>以kabs16为例，首先可以先添加一个指令class模板，用来批量添加结构相同指令<br>let hasSideEffects &#x3D; 0, mayLoad &#x3D; 0, mayStore &#x3D; 0,<br>    DecoderNamespace &#x3D; “RISCVP095_” in<br>class RVPUnary&lt;bits&lt;7&gt; funct7, bits&lt;5&gt; funct5, bits&lt;3&gt; funct3, string opcodestr&gt;<br>    : RVInstR&lt;funct7, funct3, OPC_OP_VE, (outs GPRP:$rd), (ins GPRP:$rs1),<br>              opcodestr, “$rd, $rs1”&gt; {<br>  let Inst{24-20} &#x3D; funct5;<br>}<br>hasSideEffects标记计算的表达式是否有副作用，详细可查看clang&#x2F;include&#x2F;clang&#x2F;AST&#x2F;Expr.h:635. mayLoad标记是否会读取内存，mayStore标记是否会修改内存。<br>  &#x2F;&#x2F;&#x2F; Return true if this instruction could possibly read memory.<br>  &#x2F;&#x2F;&#x2F; Instructions with this flag set are not necessarily simple load<br>  &#x2F;&#x2F;&#x2F; instructions, they may load a value and modify it, for example.<br>  bool mayLoad(QueryType Type &#x3D; AnyInBundle) const {<br>    if (isInlineAsm()) {<br>      unsigned ExtraInfo &#x3D; getOperand(InlineAsm::MIOp_ExtraInfo).getImm();<br>      if (ExtraInfo &amp; InlineAsm::Extra_MayLoad)<br>        return true;<br>    }<br>    return hasProperty(MCID::MayLoad, Type);<br>  }</p>
+<p>  &#x2F;&#x2F;&#x2F; Return true if this instruction could possibly modify memory.<br>  &#x2F;&#x2F;&#x2F; Instructions with this flag set are not necessarily simple store<br>  &#x2F;&#x2F;&#x2F; instructions, they may store a modified value based on their operands, or<br>  &#x2F;&#x2F;&#x2F; may not actually modify anything, for example.<br>  bool mayStore(QueryType Type &#x3D; AnyInBundle) const {<br>    if (isInlineAsm()) {<br>      unsigned ExtraInfo &#x3D; getOperand(InlineAsm::MIOp_ExtraInfo).getImm();<br>      if (ExtraInfo &amp; InlineAsm::Extra_MayStore)<br>        return true;<br>    }<br>    return hasProperty(MCID::MayStore, Type);<br>  }<br>RVPUnary继承于RVInstR，RVInstR继承于RVInstRBase<br>class RVInstR&lt;bits&lt;7&gt; funct7, bits&lt;3&gt; funct3, RISCVOpcode opcode, dag outs,<br>              dag ins, string opcodestr, string argstr&gt;<br>    : RVInstRBase&lt;funct3, opcode, outs, ins, opcodestr, argstr&gt; {<br>  let Inst{31-25} &#x3D; funct7;<br>}<br>需要注意的是这里RVInstRBase给出了Bits {31-25} should be set by the subclasses.而其他encoding范围已经规定好。<br>class RVInstRBase&lt;bits&lt;3&gt; funct3, RISCVOpcode opcode, dag outs,<br>                  dag ins, string opcodestr, string argstr&gt;<br>    : RVInst&lt;outs, ins, opcodestr, argstr, [], InstFormatR&gt; {<br>  bits&lt;5&gt; rs2;<br>  bits&lt;5&gt; rs1;<br>  bits&lt;5&gt; rd;</p>
+<p>  let Inst{24-20} &#x3D; rs2;<br>  let Inst{19-15} &#x3D; rs1;<br>  let Inst{14-12} &#x3D; funct3;<br>  let Inst{11-7} &#x3D; rd;<br>  let Inst{6-0} &#x3D; opcode.Value;<br>}</p>
+<p>0-6为RISCVOpcode，已经有llvm&#x2F;lib&#x2F;Target&#x2F;RISCV&#x2F;RISCVInstrFormats.td的133-160行def过<br>def OPC_LOAD      : RISCVOpcode&lt;”LOAD”,      0b0000011&gt;;<br>def OPC_LOAD_FP   : RISCVOpcode&lt;”LOAD_FP”,   0b0000111&gt;;<br>def OPC_CUSTOM_0  : RISCVOpcode&lt;”CUSTOM_0”,  0b0001011&gt;;<br>def OPC_MISC_MEM  : RISCVOpcode&lt;”MISC_MEM”,  0b0001111&gt;;<br>def OPC_OP_IMM    : RISCVOpcode&lt;”OP_IMM”,    0b0010011&gt;;<br>def OPC_AUIPC     : RISCVOpcode&lt;”AUIPC”,     0b0010111&gt;;<br>def OPC_OP_IMM_32 : RISCVOpcode&lt;”OP_IMM_32”, 0b0011011&gt;;<br>def OPC_STORE     : RISCVOpcode&lt;”STORE”,     0b0100011&gt;;<br>def OPC_STORE_FP  : RISCVOpcode&lt;”STORE_FP”,  0b0100111&gt;;<br>def OPC_CUSTOM_1  : RISCVOpcode&lt;”CUSTOM_1”,  0b0101011&gt;;<br>def OPC_AMO       : RISCVOpcode&lt;”AMO”,       0b0101111&gt;;<br>def OPC_OP        : RISCVOpcode&lt;”OP”,        0b0110011&gt;;<br>def OPC_LUI       : RISCVOpcode&lt;”LUI”,       0b0110111&gt;;<br>def OPC_OP_32     : RISCVOpcode&lt;”OP_32”,     0b0111011&gt;;<br>def OPC_MADD      : RISCVOpcode&lt;”MADD”,      0b1000011&gt;;<br>def OPC_MSUB      : RISCVOpcode&lt;”MSUB”,      0b1000111&gt;;<br>def OPC_NMSUB     : RISCVOpcode&lt;”NMSUB”,     0b1001011&gt;;<br>def OPC_NMADD     : RISCVOpcode&lt;”NMADD”,     0b1001111&gt;;<br>def OPC_OP_FP     : RISCVOpcode&lt;”OP_FP”,     0b1010011&gt;;<br>def OPC_OP_V      : RISCVOpcode&lt;”OP_V”,      0b1010111&gt;;<br>def OPC_CUSTOM_2  : RISCVOpcode&lt;”CUSTOM_2”,  0b1011011&gt;;<br>def OPC_BRANCH    : RISCVOpcode&lt;”BRANCH”,    0b1100011&gt;;<br>def OPC_JALR      : RISCVOpcode&lt;”JALR”,      0b1100111&gt;;<br>def OPC_JAL       : RISCVOpcode&lt;”JAL”,       0b1101111&gt;;<br>def OPC_SYSTEM    : RISCVOpcode&lt;”SYSTEM”,    0b1110011&gt;;<br>def OPC_OP_VE     : RISCVOpcode&lt;”OP_VE”,     0b1110111&gt;;<br>def OPC_CUSTOM_3  : RISCVOpcode&lt;”CUSTOM_3”,  0b1111011&gt;;<br>def OPC_GE80B     : RISCVOpcode&lt;”GE80B”,     0b1111111&gt;;<br>每一个RISCVOpcode含有一个name和7bit的Value<br>class RISCVOpcode&lt;string name, bits&lt;7&gt; val&gt; {<br>  string Name &#x3D; name;<br>  bits&lt;7&gt; Value &#x3D; val;<br>}<br>对应白皮书<br>[图片]<br>7-11为rd，一般是返回值的寄存器，let Inst{14-12} &#x3D; funct3;这个fun3一般是三个0， let Inst{19-15} &#x3D; rs1;表示输入寄存器与空间，let Inst{24-20} &#x3D; rs2;表示第二个输入<br>不过有时Encoding format并不固定，例如bitrevi:<br>[图片]<br>就需要利用llvm&#x2F;lib&#x2F;Target&#x2F;RISCV&#x2F;RISCVInstrInfo.td的uimmlog2xlen，在32Bit下是5bit的imm空间，在64Bit下是6位imm encoding空间<br>def uimmlog2xlen : RISCVOp, ImmLeaf&lt;XLenVT, [{<br>  if (Subtarget-&gt;is64Bit())<br>    return isUInt&lt;6&gt;(Imm);<br>  return isUInt&lt;5&gt;(Imm);<br>}<br>写一个对应的模板类<br>let hasSideEffects &#x3D; 0, mayLoad &#x3D; 0, mayStore &#x3D; 0,<br>    DecoderNamespace &#x3D; “RISCVP095_” in<br>class RVPShiftUImmLog2XLen&lt;bits&lt;6&gt; funct6, bits&lt;3&gt; funct3, string opcodestr&gt;<br>    : RVInstI&lt;funct3, OPC_OP_VE, (outs GPRP:$rd),<br>              (ins GPRP:$rs1, uimmlog2xlen:$shamt),<br>              opcodestr, “$rd, $rs1, $shamt”&gt; {<br>  bits&lt;6&gt; shamt;</p>
+<p>  let Inst{31-26} &#x3D; funct6;<br>  let Inst{25-20} &#x3D; shamt;<br>}<br>(待完成)<br>查看class Intrinsic<br>class Intrinsic&lt;list<LLVMType> ret_types,<br>                list<LLVMType> param_types &#x3D; [],<br>                list<IntrinsicProperty> intr_properties &#x3D; [],<br>                string name &#x3D; “”,<br>                list<SDNodeProperty> sd_properties &#x3D; [],<br>                bit disable_default_attributes &#x3D; true&gt; : SDPatternOperator {<br>  string LLVMName &#x3D; name;<br>  string TargetPrefix &#x3D; “”;   &#x2F;&#x2F; Set to a prefix for target-specific intrinsics.<br>  list<LLVMType> RetTypes &#x3D; ret_types;<br>  list<LLVMType> ParamTypes &#x3D; param_types;<br>  list<IntrinsicProperty> IntrProperties &#x3D; intr_properties;<br>  let Properties &#x3D; sd_properties;</p>
+<p>  &#x2F;&#x2F; Disable applying IntrinsicProperties that are marked default with<br>  &#x2F;&#x2F; IntrinsicProperty&lt;1&gt;<br>  bit DisableDefaultAttributes &#x3D; disable_default_attributes;</p>
+<p>  bit isTarget &#x3D; false;</p>
+<p>  TypeInfoGen TypeInfo &#x3D; TypeInfoGen&lt;RetTypes, ParamTypes&gt;;<br>  bit isOverloaded &#x3D; TypeInfo.isOverloaded;<br>  list<LLVMType> Types &#x3D; TypeInfo.Types;<br>  list&lt;list<int>&gt; TypeSig &#x3D; TypeInfo.TypeSig;<br>}<br>riscv的intrinsics:<br>let TargetPrefix &#x3D; “riscv” in {<br>  class RVPUnaryIntrinsics<br>      : Intrinsic&lt;[llvm_anyint_ty],<br>                  [LLVMMatchType&lt;0&gt;],<br>                  [IntrNoMem]&gt;;</p>
+<p>  multiclass RVPUnaryIntrinsics {<br>    def “int_riscv_” # NAME : RVPUnaryIntrinsics;<br>  }<br>SDPatternOperator的用途为Selection DAG Pattern Operations<br>&#x2F;&#x2F; Selection DAG Pattern Operations<br>class SDPatternOperator {<br>  list<SDNodeProperty> Properties &#x3D; [];<br>}<br>DAG是 LLVM CodeGen框架中的一个关键数据结构，主要用于指令选择阶段(待完成)<br>生成指令信息表会在编译llvm期间include进去<br>{ 15235,3, 1, 4, 4965, 0, 0, RISCVImpOpBase + 0, 8130, 0, 0x1ULL },  &#x2F;&#x2F; Inst #15235 &#x3D; SRL8<br>分别代表 指令信息表，(待完成)</p>
+<p>对Intrinsics的类型检查：<br>class RVPBinaryAABIntrinsics<br>      : Intrinsic&lt;[llvm_anyint_ty],<br>                  [LLVMMatchType&lt;0&gt;, llvm_anyint_ty],<br>                  [IntrNoMem]&gt;;</p>
+<p>  multiclass RVPBinaryAABIntrinsics {<br>    def “int_riscv_” # NAME   : RVPBinaryAABIntrinsics;<br>  }</p>
+<p>  defm ksllw     : RVPBinaryAABIntrinsics;<br>  defm kslliw    : RVPBinaryAABIntrinsics;<br>  defm kslli8    : RVPBinaryAABIntrinsics;<br>  defm slli16    : RVPBinaryAABIntrinsics;<br>DAG图的组成<br>LLVM使用SelectionDAG类(defined in include&#x2F;llvm&#x2F;CodeGen&#x2F;SelectionDAG.h)表示一个架构无关的底层数据依赖图, 它将串联整个指令选择流程, 所以包含了许多成员与接口, 这里我们只截取与lowering相关的部分.<br>class SelectionDAG {<br>  const TargetLowering *TLI &#x3D; nullptr;<br>  FunctionLoweringInfo * FLI &#x3D; nullptr;</p>
+<p>  &#x2F;&#x2F;&#x2F; The starting token.<br>  SDNode EntryNode;</p>
+<p>  &#x2F;&#x2F;&#x2F; The root of the entire DAG.<br>  SDValue Root;</p>
+<p>  &#x2F;&#x2F;&#x2F; A linked list of nodes in the current DAG.<br>  ilist<SDNode> AllNodes;<br>};<br>其中TargetLowering负责处理架构相关的lowering, FunctionLoweringInfo负责处理函数调用约定, 这两个成员后面会介绍. EntryNode与Root分别指向图的入口节点与根节点, 通过根节点即可遍历整个图<br>lowering的目的是将IR的数据结构转换为DAG, 方便之后指令选择做模式匹配. lowering的过程就是DAG建立的过程。</p>
+<p>待讲解<br>clang&#x2F;lib&#x2F;CodeGen&#x2F;CGBuiltin.cpp<br>llvm&#x2F;include&#x2F;llvm&#x2F;IR&#x2F;IntrinsicsRISCV.td<br>llvm&#x2F;lib&#x2F;Target&#x2F;RISCV&#x2F;RISCVInstrInfo&#x2F;RISCVInstrInfoP&#x2F;RISCVInstrInfoP.td<br>llvm&#x2F;lib&#x2F;Target&#x2F;RISCV&#x2F;RISCVISelLowering.cpp</p>
+<p>指令选择：<br>作用：LLVM IR 转换为目标特定的 SelectionDAG 节点，生成目标机器代码的指令序列。<br>有GlobalISel和SelectionDAG两种框架，目前都是SelectionDAG，SelectionDAGISel是核心类<br>主要动作：<br>指令选择,寄存器分配,指令调度,Machine Code Generation,Backend Optimizations</p>
+<p>例如定义了一个__builtin_riscv_kabs32并加入feature限制<br>let Features &#x3D; “64bit,(zp095b|zp054b|zp053b|zp052b)” in {<br>  def kabs32 : RISCVBuiltin&lt;”unsigned long int(unsigned long int)”&gt;;<br>}<br>注意，prototype是返回原型，features才是要匹配的输入</p>
+<p>intrinsic再到ISDNode再到指令<br>class RVInstR&lt;bits&lt;7&gt; funct7, bits&lt;3&gt; funct3, RISCVOpcode opcode, dag outs,<br>              dag ins, string opcodestr, string argstr&gt;<br>    : RVInstRBase&lt;funct3, opcode, outs, ins, opcodestr, argstr&gt; {<br>  let Inst{31-25} &#x3D; funct7;<br>}</p>
+<p>指令选择<br>第一阶段是以LLVM IR作为输入创建DAG(有向无环图)</p>
+<p>let Predicates &#x3D; [HasExtZpn095b] in {<br>def KABS16    : RVPUnary&lt;0b1010110, 0b10001, 0b000, “kabs16”&gt;,<br>                Sched&lt;[WritePAbs16, ReadPAbs16]&gt;;<br>} &#x2F;&#x2F; Predicates &#x3D; [HasExtZpn095b]</p>
+<p>&#x2F;&#x2F; Target-dependent nodes.<br>def riscv_srai    : SDNode&lt;”RISCVISD::SRAI”, SDT_RISCVSIMDShiftOpImm&gt;;</p>
+<p>目前有问题的指令：<br>KSLLIW<br>思路：能正常生成ir，并且ksllw的32和64能正常生成，kslliw的64位不可以<br>kslliw SDNode之前出了问题,可能是intrinsic格式问题<br>猜测是llvm&#x2F;lib&#x2F;Target&#x2F;RISCV&#x2F;RISCVISelLowering.cpp的返回类型合法化问题<br>Don’t know how to custom type legalize this intrinsic!</p>
+<p>(lldb) breakpoint list<br>Current breakpoints:<br>3: name &#x3D; ‘llvm::RISCVTargetLowering::ReplaceNodeResults’, locations &#x3D; 1, resolved &#x3D; 1, hit count &#x3D; 1<br>  3.1: where &#x3D; clang1&#96;llvm::RISCVTargetLowering::ReplaceNodeResults(llvm::SDNode*, llvm::SmallVectorImpl<a href="llvm::SDValue">llvm::SDValue</a>&amp;, llvm::SelectionDAG&amp;) const + 43 at RISCVISelLowering.cpp:13221:12, address &#x3D; 0x00005555627e84bb, resolved, hit count &#x3D; 1<br>(lldb) p N-&gt;getOperationName(&amp;DAG)<br>(std::string) “llvm.riscv.kslliw”<br>(lldb) p N-&gt;getOpcode()<br>(unsigned int) 46<br>(lldb) p N-&gt;getOperationName(&amp;DAG)<br>(std::string) “llvm.riscv.kslliw”<br>(lldb) p N-&gt;getValueType(0).getEVTString()<br>(std::string) “i32”<br>(lldb) p N-&gt;getNumOperands()<br>(unsigned int) 3<br>(lldb) p N-&gt;getOperand(0).getValueType().getEVTString()<br> N-&gt;getOperand(1).getValueType().getEVTString()<br>p N-&gt;getOperand(2).getValueType().getEVTString()<br>(std::string) “i64”<br>(lldb) p N-&gt;getOperand(1).getValueType().getEVTString()<br>(std::string) “i32”<br>(lldb) p N-&gt;getOperand(2).getValueType().getEVTString()<br>(std::string) “i32”<br>{14713, 3, 1, 4, 4964, 0, 0, RISCVImpOpBase + 0, 8130, 0, 0x1ULL },  &#x2F;&#x2F; Inst #14713 &#x3D; KSLLW<br>结论：白皮书发生变动，定义修改，按照054版本来<br>sub64:<br>报错为：<br> $CLANG -march&#x3D;rv32gc_xxldsp -mabi&#x3D;ilp32d -O2 -c test.c  -S  -o -<br>        .text<br>        .attribute      4, 16<br>        .attribute      5, “rv32i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0_zp054b0p54_zp64054b0p54_xxldsp1p0”<br>        .file   “test.c”<br>fatal error: error in backend: Cannot select: intrinsic %llvm.riscv.sub64<br>PLEASE submit a bug report to xxx.com and include the crash backtrace, preprocessed source, and associated run script.<br>Stack dump:</p>
+<ol>
+<li><pre><code> Program arguments: /home/f/work/llvm/build-debug/llvm/bin/clang -march=rv32gc_xxxx -mabi=ilp32d -O2 -c test.c -S -o -
+</code></pre>
+</li>
+<li><pre><code> &lt;eof&gt; parser at end of file
+</code></pre>
+</li>
+<li><pre><code> Code generation
+</code></pre>
+</li>
+<li><pre><code> Running pass &#39;Function Pass Manager&#39; on module &#39;test.c&#39;.
+</code></pre>
+</li>
+<li><pre><code> Running pass &#39;RISC-V DAG-&gt;DAG Pattern Instruction Selection&#39; on function &#39;@test_sub64&#39;
+</code></pre>
+</li>
+</ol>
+<p>按照ksub64同类型解决<br>其他：<br>有isdnode的，检查lowering过程，检查模式匹配指令是否正确，打印ir查看</p>
+<p>调试手段：<br>前端未定义<br>1.<br>查看对应.inc文件，对照白皮书<br>2.<br>3.<br>error in backend: Cannot select<br>4.<br>打断点<br>b llvm::SelectionDAGISel::Select<br>b llvm::SelectionDAGISel::CannotYetSelect    (SelectionDAGISel::CannotYetSelect(SDNode *N))</p>
+<p>b RISCVTargetLowering::LowerINTRINSIC_WO_CHAIN</p>
+<p>b RISCVDAGToDAGISel::Select<br>b RISCVISelDAGToDAG::Select<br>(lldb) breakpoint list<br>Current breakpoints:<br>1: name &#x3D; ‘llvm::SelectionDAGISel::Select’, locations &#x3D; 0 (pending)</p>
+<p>2: name &#x3D; ‘llvm::SelectionDAGISel::CannotYetSelect’, locations &#x3D; 1, resolved &#x3D; 1, hit count &#x3D; 1<br>  2.1: where &#x3D; clang1&#96;llvm::SelectionDAGISel::CannotYetSelect(llvm::SDNode*) + 30 at SelectionDAGISel.cpp:4371:15, address &#x3D; 0x000055556430b95e, resolved, hit count &#x3D; 1 </p>
+<p>3: name &#x3D; ‘RISCVTargetLowering::LowerINTRINSIC_WO_CHAIN’, locations &#x3D; 1, resolved &#x3D; 1, hit count &#x3D; 0<br>  3.1: where &#x3D; clang1&#96;llvm::RISCVTargetLowering::LowerINTRINSIC_WO_CHAIN(llvm::SDValue, llvm::SelectionDAG&amp;) const + 46 at RISCVISelLowering.cpp:9561:23, address &#x3D; 0x00005555627a0dee, resolved, hit count &#x3D; 0 </p>
+<p>4: name &#x3D; ‘RISCVDAGToDAGISel::Select’, locations &#x3D; 1, resolved &#x3D; 1, hit count &#x3D; 0<br>  4.1: where &#x3D; clang1 &#96;llvm::RISCVDAGToDAGISel::Select(llvm::SDNode*) + 33 at RISCVISelDAGToDAG.cpp:911:7, address &#x3D; 0x000055556292fcb1, resolved, hit count &#x3D; 0 </p>
+<p>5: name &#x3D; ‘RISCVISelDAGToDAG::Select’, locations &#x3D; 0 (pending)</p>
+<p>(lldb) p N-&gt;dump()<br>t6: i32 &#x3D; llvm.riscv.sub64 TargetConstant:i32&lt;10904&gt;, t2, t4<br>(lldb) call N-&gt;dump()<br>t6: i32 &#x3D; llvm.riscv.sub64 TargetConstant:i32&lt;10904&gt;, t2, t4<br>查看Opcode<br>p N-&gt;getOpcode()<br>(unsigned int) 46<br>b llvm::RISCVTargetLowering::ReplaceNodeResults<br>p N-&gt;getOperationName(&amp;DAG)<br>p N-&gt;getOpcode()</p>
+<p>Intrinsic: llvm.riscv.kslliw<br>Result VT: i32<br>Operands: (i32, i32)<br>Target: RV64<br>1.<br>参数<br>2.<br>–debug-only&#x3D;isel<br>1.<br>打印出records结果<br>2.<br>llvm-tblgen   -I llvm&#x2F;include <br>  -I llvm&#x2F;lib&#x2F;Target&#x2F;RISCV <br>  -print-records <br>  llvm&#x2F;lib&#x2F;Target&#x2F;RISCV&#x2F;RISCV.td \</p>
+<blockquote>
+<p>riscv-print-records.txt<br>以 KSLL32为例：</p>
+</blockquote>
+<p>def KSLL32 {        &#x2F;&#x2F; InstructionEncoding Instruction RVInstCommon RVInst RVInstRBase RVInstR RVPBinary Sched<br>  field bits&lt;32&gt; Inst &#x3D; { 0, 1, 1, 0, 0, 1, 0, rs2{4}, rs2{3}, rs2{2}, rs2{1}, rs2{0}, rs1{4}, rs1{3}, rs1{2}, rs1{1}, rs1{0}, 0, 1, 0, rd{4}, rd{3}, rd{2}, rd{1}, rd{0}, 1, 1, 1, 0, 1, 1, 1 };<br>  field bits&lt;32&gt; SoftFail &#x3D; { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };<br>  int Size &#x3D; 4;<br>  string DecoderNamespace &#x3D; “RISCVP095_”;<br>  list<Predicate> Predicates &#x3D; [HasExtZprvsfextra095b, IsRV64];<br>  string DecoderMethod &#x3D; “”;<br>  bit hasCompleteDecoder &#x3D; 1;<br>  string Namespace &#x3D; “RISCV”;<br>  dag OutOperandList &#x3D; (outs GPRP:$rd);<br>  dag InOperandList &#x3D; (ins GPRP:$rs1, GPRP:$rs2);<br>  string AsmString &#x3D; “ksll32        $rd, $rs1, $rs2”;<br>  EncodingByHwMode EncodingInfos &#x3D; ?;<br>  list<dag> Pattern &#x3D; [];<br>  list<Register> Uses &#x3D; [];<br>  list<Register> Defs &#x3D; [];<br>  int CodeSize &#x3D; 0;<br>  int AddedComplexity &#x3D; 0;<br>  bit isPreISelOpcode &#x3D; 0;<br>  bit isReturn &#x3D; 0;<br>  bit isBranch &#x3D; 0;<br>  bit isEHScopeReturn &#x3D; 0;<br>  bit isIndirectBranch &#x3D; 0;<br>  bit isCompare &#x3D; 0;<br>  bit isMoveImm &#x3D; 0;<br>  bit isMoveReg &#x3D; 0;<br>  bit isBitcast &#x3D; 0;<br>  bit isSelect &#x3D; 0;<br>  bit isBarrier &#x3D; 0;<br>  bit isCall &#x3D; 0;<br>  bit isAdd &#x3D; 0;<br>  bit isTrap &#x3D; 0;<br>  bit canFoldAsLoad &#x3D; 0;<br>  bit mayLoad &#x3D; 0;<br>  bit mayStore &#x3D; 0;<br>  bit mayRaiseFPException &#x3D; 0;<br>  bit isConvertibleToThreeAddress &#x3D; 0;<br>  bit isCommutable &#x3D; 0;<br>  bit isTerminator &#x3D; 0;<br>  bit isReMaterializable &#x3D; 0;<br>  bit isPredicable &#x3D; 0;<br>  bit isUnpredicable &#x3D; 0;<br>  bit hasDelaySlot &#x3D; 0;<br>  bit usesCustomInserter &#x3D; 0;<br>  bit hasPostISelHook &#x3D; 0;<br>  bit hasCtrlDep &#x3D; 0;<br>  bit isNotDuplicable &#x3D; 0;<br>  bit isConvergent &#x3D; 0;<br>  bit isAuthenticated &#x3D; 0;<br>  bit isAsCheapAsAMove &#x3D; 0;<br>  bit hasExtraSrcRegAllocReq &#x3D; 0;<br>  bit hasExtraDefRegAllocReq &#x3D; 0;<br>  bit isRegSequence &#x3D; 0;<br>  bit isPseudo &#x3D; 0;<br>  bit isMeta &#x3D; 0;<br>  bit isExtractSubreg &#x3D; 0;<br>  bit isInsertSubreg &#x3D; 0;<br>  bit variadicOpsAreDefs &#x3D; 0;<br>  bit hasSideEffects &#x3D; 0;<br>  bit isCodeGenOnly &#x3D; 0;<br>  bit isAsmParserOnly &#x3D; 0;<br>  bit hasNoSchedulingInfo &#x3D; 0;<br>  InstrItinClass Itinerary &#x3D; NoItinerary;<br>  list<SchedReadWrite> SchedRW &#x3D; [WritePShift32, ReadPShift32, ReadPShift32];<br>  string Constraints &#x3D; “”;<br>  string DisableEncoding &#x3D; “”;<br>  string PostEncoderMethod &#x3D; “”;<br>  bits&lt;64&gt; TSFlags &#x3D; { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };<br>  string AsmMatchConverter &#x3D; “”;<br>  string TwoOperandAliasConstraint &#x3D; “”;<br>  string AsmVariantName &#x3D; “”;<br>  bit UseNamedOperandTable &#x3D; 0;<br>  bit UseLogicalOperandMappings &#x3D; 0;<br>  bit FastISelShouldIgnore &#x3D; 0;<br>  bit HasPositionOrder &#x3D; 0;<br>  RISCVVConstraint RVVConstraint &#x3D; NoConstraint;<br>  bits&lt;3&gt; VLMul &#x3D; { 0, 0, 0 };<br>  bit ForceTailAgnostic &#x3D; 0;<br>  bit IsTiedPseudo &#x3D; 0;<br>  bit HasSEWOp &#x3D; 0;<br>  bit HasVLOp &#x3D; 0;<br>  bit HasVecPolicyOp &#x3D; 0;<br>  bit IsRVVWideningReduction &#x3D; 0;<br>  bit UsesMaskPolicy &#x3D; 0;<br>  bit IsSignExtendingOpW &#x3D; 0;<br>  bit HasRoundModeOp &#x3D; 0;<br>  bit UsesVXRM &#x3D; 0;<br>  bits&lt;2&gt; TargetOverlapConstraintType &#x3D; { 0, 0 };<br>  bits&lt;5&gt; rs2 &#x3D; { ?, ?, ?, ?, ? };<br>  bits&lt;5&gt; rs1 &#x3D; { ?, ?, ?, ?, ? };<br>  bits&lt;5&gt; rd &#x3D; { ?, ?, ?, ?, ? };<br>}<br>def anonymous_49608 {        &#x2F;&#x2F; Pattern Pat RVPBinaryPat<br>  dag PatternToMatch &#x3D; (XLenVT (int_riscv_ksll32 XLenVT:$rs1, XLenVT:$rs2));<br>  list<dag> ResultInstrs &#x3D; [(KSLL32 GPR:$rs1, GPR:$rs2)];<br>  list<Predicate> Predicates &#x3D; [HasExtZprvsfextra095b, IsRV64];<br>  int AddedComplexity &#x3D; 0;<br>  bit GISelShouldIgnore &#x3D; 0;<br>}</p>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://llvm.org/docs/TableGen/">https://llvm.org/docs/TableGen/</a><br><a target="_blank" rel="noopener" href="https://llvm.gnu.ac.cn/docs/UserGuides.html">https://llvm.gnu.ac.cn/docs/UserGuides.html</a><br><a target="_blank" rel="noopener" href="https://llvm.gnu.ac.cn/docs/RemoveDIsDebugInfo.html">https://llvm.gnu.ac.cn/docs/RemoveDIsDebugInfo.html</a><br><a target="_blank" rel="noopener" href="https://blog.chiphub.top/2024/05/21/llvm-learning-define-intrinsics-1/">https://blog.chiphub.top/2024/05/21/llvm-learning-define-intrinsics-1/</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/447318642">https://zhuanlan.zhihu.com/p/447318642</a><br>How to write a TableGen backend:<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UP-LBRbvI_U">https://www.youtube.com/watch?v=UP-LBRbvI_U</a><br>lowering的过程<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Five100Miles/p/12824942.html">https://www.cnblogs.com/Five100Miles/p/12824942.html</a></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Fan</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://starrycsf.github.io/2025/11/05/20260424-1/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://starrycsf.github.io/2025/11/05/20260424-1/')">LLVM指令选择</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://starrycsf.github.io/2025/11/05/20260424-1/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=LLVM指令选择&amp;url=https://starrycsf.github.io/2025/11/05/20260424-1/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://starrycsf.github.io" target="_blank">StarryCSF</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"></div></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/10/24/20260424/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">P-built-in记录</div></div></a></div><div class="next-post pull-right"><a href="/2026/03/21/20260321/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">谈谈如何变强</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">折若木以拂日兮,聊逍遥以相羊</div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(/img/dream.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/21/20260321/" title="谈谈如何变强">谈谈如何变强</a><time datetime="2026-03-21T12:46:33.000Z" title="发表于 2026-03-21 20:46:33">2026-03-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/05/20260424-1/" title="LLVM指令选择">LLVM指令选择</a><time datetime="2025-11-05T09:50:43.000Z" title="发表于 2025-11-05 17:50:43">2025-11-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/24/20260424/" title="P-built-in记录">P-built-in记录</a><time datetime="2025-10-24T01:29:56.000Z" title="发表于 2025-10-24 09:29:56">2025-10-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/04/25013/" title="LLVM">LLVM</a><time datetime="2025-02-04T04:05:18.000Z" title="发表于 2025-02-04 12:05:18">2025-02-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/01/25012/" title="GDB">GDB</a><time datetime="2025-02-01T07:52:29.000Z" title="发表于 2025-02-01 15:52:29">2025-02-01</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="Fan" target="_blank">Fan</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">5</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.png&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.7.0",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Fan 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
